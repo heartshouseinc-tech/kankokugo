@@ -1,0 +1,1894 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>韓国語Journey — 赤ちゃん式</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FFF0F6; --bg2:#FFE4EF; --bg3:#FFFFFF;
+  --card:#FFFFFF; --card2:#FFF8FB;
+  --border:#F8BBD9; --border2:#F48FB1;
+  --text:#3D0030; --text2:#880E4F; --text3:#C2185B;
+  --ko:#E91E8C; --hanja:#F57F17; --kata:#0097A7; --jp:#2E7D32;
+  --accent:#E91E8C; --accent2:#C2185B;
+  --green:#2E7D32; --red:#C62828; --gold:#F57F17;
+  --shadow:0 4px 20px rgba(233,30,140,.10);
+  --shadow-lg:0 8px 32px rgba(233,30,140,.16);
+  --r:18px; --rsm:11px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);font-size:15px}
+
+/* SPLASH */
+#splash{position:fixed;inset:0;z-index:9999;
+  background:linear-gradient(145deg,#880E4F,#E91E8C,#F06292);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  transition:opacity .7s}
+#splash.out{opacity:0;pointer-events:none}
+.sp-icon{font-size:80px;margin-bottom:20px;animation:spF 2s ease-in-out infinite}
+@keyframes spF{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.sp-title{font-family:'Fredoka One',cursive;font-size:30px;letter-spacing:2px;
+  color:#FFFFFF;-webkit-text-fill-color:#FFFFFF;
+  margin-bottom:6px}
+.sp-ko{font-size:22px;font-weight:900;color:rgba(255,255,255,.6);margin-bottom:6px;letter-spacing:3px}
+.sp-sub{font-size:11px;color:rgba(255,255,255,.35);letter-spacing:3px;margin-bottom:32px}
+.sp-bar{width:200px;height:4px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden}
+.sp-fill{height:100%;width:0;border-radius:2px;
+  background:linear-gradient(90deg,#FFFFFF,#FCE4EC);
+  animation:sfill 2.2s ease forwards}
+@keyframes sfill{to{width:100%}}
+
+/* APP */
+#app{display:flex;flex-direction:column;height:100dvh;overflow:hidden}
+
+/* HEADER */
+.hdr{padding:11px 14px 9px;display:flex;align-items:center;gap:10px;flex-shrink:0;
+  background:linear-gradient(135deg,#880E4F,#E91E8C);border-bottom:none;box-shadow:0 2px 12px rgba(136,14,79,.25)}
+.hdr-logo{font-family:'Fredoka One',cursive;font-size:19px;
+  color:#FFFFFF;-webkit-text-fill-color:#FFFFFF}
+.hdr-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+.xp-col{display:flex;flex-direction:column;align-items:flex-end;gap:3px}
+.xp-lbl{font-size:10px;font-weight:800;color:rgba(255,255,255,.5)}
+.xp-bar{width:72px;height:5px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden}
+.xp-fill{height:100%;border-radius:3px;
+  background:linear-gradient(90deg,#FFFFFF,#FCE4EC);transition:width .8s ease}
+.stg-badge{background:rgba(255,255,255,.25);border:1px solid rgba(255,255,255,.5);
+  color:#fff;font-size:11px;font-weight:800;padding:4px 11px;border-radius:20px}
+
+/* ROADMAP */
+.roadmap{display:flex;padding:7px 10px 5px;gap:5px;flex-shrink:0;
+  background:#FFFFFF;border-bottom:1px solid var(--border);box-shadow:0 2px 8px rgba(233,30,140,.06);
+  overflow-x:auto;scrollbar-width:none}
+.roadmap::-webkit-scrollbar{display:none}
+.rd-step{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:5px 10px;border-radius:12px;cursor:pointer;border:1.5px solid transparent;
+  font-size:10px;font-weight:800;color:#C2185B;transition:all .2s;min-width:56px}
+.rd-step.done{color:#880E4F;background:#FFF0F6}
+.rd-step.cur{border-color:var(--ko);color:var(--ko);background:#FCE4EC;box-shadow:0 2px 8px rgba(233,30,140,.15)}
+.rd-step.lock{opacity:.25;cursor:not-allowed}
+.rd-icon{font-size:24px}
+
+/* SPEED ROW */
+.ctrl-row{display:flex;gap:5px;padding:6px 10px 5px;background:#FFFFFF;
+  border-bottom:1px solid var(--border);align-items:center;flex-shrink:0;flex-wrap:wrap}
+.spd-btn{background:#FFF0F6;border:1.5px solid var(--border2);
+  border-radius:8px;padding:5px 11px;font-size:11px;font-weight:700;cursor:pointer;
+  color:var(--text2);font-family:inherit;transition:all .2s}
+.spd-btn.on{background:var(--ko);border-color:var(--ko);color:#fff;box-shadow:0 2px 8px rgba(233,30,140,.25)}
+.auto-wrap{margin-left:auto;display:flex;align-items:center;gap:5px;
+  font-size:11px;font-weight:700;color:var(--text2)}
+.tog{width:34px;height:18px;border-radius:9px;border:none;cursor:pointer;
+  position:relative;transition:background .2s;background:#F8BBD9}
+.tog.on{background:var(--ko)}
+.tog::after{content:'';position:absolute;top:2px;left:2px;
+  width:14px;height:14px;border-radius:50%;background:#fff;transition:transform .2s}
+.tog.on::after{transform:translateX(16px)}
+
+/* MODE TABS */
+.mode-tabs{display:flex;gap:5px;padding:6px 10px 5px;background:#FFFFFF;
+  border-bottom:1px solid var(--border);overflow-x:auto;
+  scrollbar-width:none;flex-shrink:0}
+.mode-tabs::-webkit-scrollbar{display:none}
+.m-tab{flex-shrink:0;border:1.5px solid var(--border2);border-radius:18px;
+  padding:7px 15px;font-size:12px;font-weight:800;cursor:pointer;
+  background:#FFF0F6;color:var(--text2);font-family:inherit;transition:all .2s}
+.m-tab.on{background:var(--ko);border-color:var(--ko);color:#fff;box-shadow:0 2px 8px rgba(233,30,140,.2)}
+
+/* QUICK CHIPS */
+.chips-bar{display:flex;gap:6px;padding:6px 10px 5px;background:#FCE4EC;
+  border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;flex-shrink:0}
+.chips-bar::-webkit-scrollbar{display:none}
+.chip{flex-shrink:0;border:1.5px solid rgba(255,107,157,.2);border-radius:16px;
+  padding:5px 12px;font-size:11px;font-weight:800;cursor:pointer;
+  background:rgba(255,107,157,.06);color:rgba(255,107,157,.7);
+  font-family:inherit;transition:all .2s}
+.chip:active{background:#FCE4EC;transform:scale(.96)}
+
+/* MESSAGES */
+.msgs{flex:1;overflow-y:auto;padding:14px 12px;display:flex;flex-direction:column;
+  gap:13px;background:linear-gradient(180deg,#FFF0F6,#FFE4EF);scrollbar-width:thin;
+  scrollbar-color:var(--border) transparent}
+.msgs::-webkit-scrollbar{width:3px}
+.msgs::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+
+.row{display:flex;gap:8px;animation:msgIn .3s ease}
+@keyframes msgIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+.row.u{flex-direction:row-reverse}
+.av{width:36px;height:36px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+  background:#FFFFFF;border:2px solid var(--border);box-shadow:0 2px 8px rgba(233,30,140,.1)}
+.bbl{max-width:88%;padding:13px 16px;border-radius:16px;
+  font-size:15px;line-height:1.85;white-space:pre-wrap;word-break:break-word}
+.row.ai .bbl{background:#FFFFFF;border:1.5px solid var(--border);color:var(--text);
+  border-radius:4px 20px 20px 20px;box-shadow:0 2px 12px rgba(233,30,140,.08)}
+.row.u .bbl{background:linear-gradient(135deg,#E91E8C,#880E4F);
+  color:#fff;border-radius:20px 4px 20px 20px;box-shadow:0 2px 12px rgba(233,30,140,.3)}
+
+/* 4-LAYER DISPLAY in bubble */
+.ko-text{color:var(--ko);font-size:18px;font-weight:900}
+.hanja-text{color:var(--hanja);font-size:14px;font-weight:700}
+.kata-text{color:var(--kata);font-size:15px;font-weight:800}
+.jp-text{color:var(--jp);font-size:13px;font-weight:700}
+
+.acts{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.act{display:inline-flex;align-items:center;gap:4px;border:none;border-radius:9px;
+  padding:4px 11px;font-size:11px;font-weight:800;cursor:pointer;
+  font-family:inherit;transition:all .2s;
+  background:rgba(192,96,255,.12);color:#c060ff}
+.act:active{opacity:.7}
+.act.grn{background:rgba(76,175,80,.12);color:#81c784}
+
+/* WAVEFORM */
+.wv{display:flex;align-items:center;gap:2px;height:13px}
+.wb{width:3px;border-radius:2px;background:currentColor;opacity:.8}
+.wb.a{animation:wvA .7s ease-in-out infinite}
+.wb:nth-child(1){height:4px}.wb:nth-child(2){height:11px;animation-delay:.1s}
+.wb:nth-child(3){height:7px;animation-delay:.2s}.wb:nth-child(4){height:13px;animation-delay:.3s}
+.wb:nth-child(5){height:8px;animation-delay:.4s}
+@keyframes wvA{0%,100%{transform:scaleY(.3);opacity:.3}50%{transform:scaleY(1);opacity:1}}
+
+/* TYPING */
+.typing-row{display:flex;gap:8px;align-items:center}
+.typing-dots{padding:12px 16px;border-radius:4px 20px 20px 20px;
+  background:#FFFFFF;border:1.5px solid var(--border);display:flex;gap:5px;box-shadow:0 2px 8px rgba(233,30,140,.08)}
+.typing-dots span{width:8px;height:8px;border-radius:50%;background:var(--ko);
+  animation:td .9s infinite}
+.typing-dots span:nth-child(2){animation-delay:.25s}
+.typing-dots span:nth-child(3){animation-delay:.5s}
+@keyframes td{0%,80%,100%{transform:scale(.4);opacity:.2}40%{transform:scale(1.1);opacity:1}}
+.sys-msg{text-align:center;font-size:11px;color:var(--text2);padding:4px 12px;background:rgba(233,30,140,.06);border-radius:20px;margin:0 20px;font-weight:600}
+
+/* ── WORD MODAL ── */
+#wrd-modal{display:none;position:fixed;inset:0;z-index:7000;
+  background:linear-gradient(145deg,#FFF0F6,#FCE4EC,#F8BBD9);
+  flex-direction:column}
+#wrd-modal.show{display:flex}
+.wm-hdr{padding:12px 14px;display:flex;align-items:center;gap:10px;flex-shrink:0;
+  background:linear-gradient(135deg,#3d0870,#6b1fa2)}
+.wm-title{font-size:16px;font-weight:900;color:#fff;flex:1}
+.wm-close{background:rgba(255,255,255,.2);border:none;color:#fff;font-size:20px;
+  width:34px;height:34px;border-radius:50%;cursor:pointer;
+  display:flex;align-items:center;justify-content:center}
+.cat-bar{display:flex;gap:6px;padding:7px 11px;overflow-x:auto;
+  background:rgba(255,255,255,.03);border-bottom:1px solid var(--border);
+  flex-shrink:0;scrollbar-width:none}
+.cat-bar::-webkit-scrollbar{display:none}
+.cat-btn{flex-shrink:0;border:1.5px solid rgba(255,255,255,.12);border-radius:16px;
+  padding:5px 12px;font-size:11px;font-weight:800;cursor:pointer;
+  background:transparent;color:rgba(255,255,255,.45);font-family:inherit;transition:all .2s}
+.cat-btn.on{background:rgba(192,96,255,.3);border-color:var(--accent);color:#fff}
+
+/* 4-LAYER WORD CARD */
+.wrd-scene{display:flex;flex-direction:column;align-items:center;
+  padding:16px 14px;text-align:center;overflow-y:auto;flex:1;background:#FFFFFF}
+.wrd-type-badge{font-size:10px;font-weight:800;padding:3px 12px;border-radius:20px;
+  margin-bottom:10px;letter-spacing:.5px}
+.wrd-type-badge.hanja-w{background:rgba(255,215,0,.15);color:var(--hanja);border:1px solid rgba(255,215,0,.3)}
+.wrd-type-badge.native-w{background:rgba(76,175,80,.12);color:#81c784;border:1px solid rgba(76,175,80,.25)}
+.wrd-type-badge.loan-w{background:rgba(79,195,247,.12);color:var(--kata);border:1px solid rgba(79,195,247,.25)}
+.wrd-emoji{font-size:88px;margin-bottom:12px;
+  animation:wrdF 2s ease-in-out infinite;
+  filter:drop-shadow(0 6px 20px rgba(192,96,255,.3))}
+@keyframes wrdF{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+
+/* 4-LAYER CARD */
+.four-layer{width:100%;max-width:340px;border-radius:18px;overflow:hidden;
+  box-shadow:0 8px 32px rgba(0,0,0,.4);margin-bottom:14px}
+.layer{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;
+  cursor:pointer;transition:all .2s}
+.layer:active{opacity:.8}
+.layer.hanja-l{background:linear-gradient(135deg,#FFF8E1,#FFECB3);
+  border-bottom:1px solid rgba(245,127,23,.2)}
+.layer.ko-l{background:linear-gradient(135deg,#FCE4EC,#F8BBD9);
+  border-bottom:1px solid rgba(233,30,140,.2)}
+.layer.kata-l{background:linear-gradient(135deg,#E0F7FA,#B2EBF2);
+  border-bottom:1px solid rgba(0,151,167,.2)}
+.layer.jp-l{background:linear-gradient(135deg,#E8F5E9,#C8E6C9)}
+.layer-label{font-size:10px;font-weight:800;opacity:.6;letter-spacing:.5px;flex-shrink:0;color:var(--text3)}
+.layer-main{font-size:20px;font-weight:900;text-align:right;flex:1;margin-left:10px}
+.layer-sub{font-size:11px;opacity:.55;margin-top:2px;text-align:right}
+.layer.hanja-l .layer-main{color:#E65100}
+.layer.ko-l .layer-main{color:#880E4F;font-size:24px}
+.layer.kata-l .layer-main{color:#006064}
+.layer.kata-l .layer-sub{color:#00838F;font-size:10px}
+.layer.jp-l .layer-main{color:#1B5E20;font-size:17px}
+
+/* 発音ヒント */
+.pron-hint{background:rgba(79,195,247,.08);border:1px solid rgba(79,195,247,.2);
+  border-radius:12px;padding:10px 14px;margin-bottom:12px;
+  width:100%;max-width:340px;text-align:left}
+.pron-hint-title{font-size:10px;font-weight:800;color:var(--kata);
+  margin-bottom:6px;letter-spacing:.5px}
+.pron-hint-text{font-size:13px;color:var(--text2);line-height:1.8;font-weight:700}
+
+/* 漢字語ボーナス */
+.hanja-bonus{background:rgba(255,215,0,.07);border:1px solid rgba(255,215,0,.2);
+  border-radius:12px;padding:10px 14px;margin-bottom:12px;
+  width:100%;max-width:340px;text-align:left}
+.hanja-bonus-title{font-size:10px;font-weight:800;color:var(--hanja);margin-bottom:5px}
+.hanja-bonus-row{display:flex;align-items:center;gap:8px;font-size:13px}
+.hanja-bonus-kanji{font-size:22px;font-weight:900;color:var(--hanja)}
+.hanja-bonus-arrow{color:rgba(255,215,0,.4);font-size:16px}
+.hanja-bonus-jp{font-size:14px;font-weight:700;color:var(--jp)}
+
+.wrd-sent{font-size:16px;font-weight:700;color:var(--text);
+  line-height:1.7;margin-bottom:5px;max-width:320px;text-align:center}
+.wrd-sent-kata{font-size:13px;color:var(--kata);font-weight:700;margin-bottom:4px}
+.wrd-sent-jp{font-size:13px;color:var(--jp);font-weight:600;margin-bottom:14px}
+
+.wrd-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:12px}
+.wrd-btn{border:none;border-radius:18px;padding:10px 18px;font-size:13px;font-weight:800;
+  cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:7px;transition:all .2s}
+.wrd-btn:active{transform:scale(.95)}
+.wrd-btn.play{background:linear-gradient(135deg,#6b1fa2,#c060ff);color:#fff;
+  box-shadow:0 4px 14px rgba(192,96,255,.3)}
+.wrd-btn.next{background:linear-gradient(135deg,#1b5e20,#43a047);color:#fff;
+  box-shadow:0 4px 14px rgba(27,94,32,.3)}
+.wrd-btn.rep{background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.15);color:var(--text2)}
+
+.wrd-dots{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;margin-bottom:10px}
+.wrd-dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.12);transition:all .3s}
+.wrd-dot.done{background:var(--accent)}
+.wrd-dot.cur{background:var(--ko);transform:scale(1.5)}
+.wrd-learned{font-size:11px;color:var(--text3);font-weight:700;margin-bottom:10px}
+
+.wrd-story-btn{border:none;border-radius:14px;padding:10px 20px;
+  background:linear-gradient(135deg,#0d47a1,#1976d2);color:#fff;
+  font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;
+  box-shadow:0 3px 12px rgba(13,71,161,.35);transition:all .2s;margin-bottom:10px}
+.wrd-story-btn:active{transform:scale(.95)}
+.wrd-story-area{display:none;background:rgba(255,255,255,.05);
+  border:1.5px solid rgba(255,255,255,.1);border-radius:13px;padding:13px 14px;
+  font-size:14px;font-weight:600;line-height:1.8;color:var(--text);
+  text-align:left;width:100%;max-width:320px;margin-bottom:10px}
+
+/* ── LISTEN MODAL (赤ちゃん耳モード) ── */
+#listen-modal{display:none;position:fixed;inset:0;z-index:7000;
+  background:linear-gradient(145deg,#FFF0F6,#FCE4EC,#E8F5E9);
+  flex-direction:column;align-items:center}
+#listen-modal.show{display:flex}
+.lm-hdr{width:100%;padding:12px 14px;display:flex;align-items:center;gap:10px;flex-shrink:0;
+  background:linear-gradient(135deg,#1a0020,#3d0060)}
+.lm-title{font-size:16px;font-weight:900;color:#fff;flex:1}
+.lm-close{background:rgba(255,255,255,.2);border:none;color:#fff;font-size:20px;
+  width:34px;height:34px;border-radius:50%;cursor:pointer;
+  display:flex;align-items:center;justify-content:center}
+.lm-body{flex:1;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;padding:20px;width:100%;text-align:center}
+.lm-topic-bar{display:flex;gap:7px;margin-bottom:18px;flex-wrap:wrap;justify-content:center}
+.lm-topic{border:1.5px solid rgba(255,107,157,.25);border-radius:16px;
+  padding:6px 14px;font-size:12px;font-weight:800;cursor:pointer;
+  background:rgba(255,107,157,.08);color:rgba(255,107,157,.75);
+  font-family:inherit;transition:all .2s}
+.lm-topic.on{background:rgba(255,107,157,.25);border-color:var(--ko);color:#fff}
+.lm-card{background:#FFFFFF;border:2px solid var(--border);
+  border-radius:24px;padding:28px 24px;width:100%;max-width:340px;margin-bottom:18px;box-shadow:0 4px 20px rgba(233,30,140,.1)}
+.lm-ko{font-size:36px;font-weight:900;color:var(--ko);margin-bottom:8px;line-height:1.2;text-shadow:none}
+.lm-kata{font-size:22px;font-weight:800;color:var(--kata);margin-bottom:8px;color:#006064}
+.lm-kata-hint{font-size:13px;color:#006064;margin-bottom:8px;font-weight:700}
+.lm-blur{filter:blur(6px);transition:filter .3s;cursor:pointer;user-select:none}
+.lm-blur.show{filter:none}
+.lm-hanja{font-size:16px;font-weight:800;color:#E65100;margin-bottom:4px}
+.lm-jp{font-size:14px;font-weight:700;color:#2E7D32}
+.lm-reveal-hint{font-size:11px;color:rgba(255,255,255,.3);margin-top:8px}
+.lm-waveform{display:flex;align-items:center;justify-content:center;
+  gap:4px;height:40px;margin:14px 0}
+.lm-wb{width:5px;border-radius:3px;background:var(--ko);opacity:.8}
+.lm-wb.a{animation:wvA .7s ease-in-out infinite}
+.lm-wb:nth-child(1){height:8px}.lm-wb:nth-child(2){height:24px;animation-delay:.1s}
+.lm-wb:nth-child(3){height:16px;animation-delay:.2s}.lm-wb:nth-child(4){height:32px;animation-delay:.3s}
+.lm-wb:nth-child(5){height:20px;animation-delay:.4s}.lm-wb:nth-child(6){height:28px;animation-delay:.3s}
+.lm-wb:nth-child(7){height:14px;animation-delay:.2s}
+.lm-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.lm-btn{border:none;border-radius:18px;padding:12px 22px;font-size:14px;font-weight:800;
+  cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:8px;
+  transition:all .2s}
+.lm-btn:active{transform:scale(.95)}
+.lm-btn.play{background:linear-gradient(135deg,#880e4f,#e91e8c);color:#fff;
+  box-shadow:0 4px 14px rgba(233,30,140,.3)}
+.lm-btn.next{background:linear-gradient(135deg,#1b5e20,#43a047);color:#fff}
+.lm-btn.story{background:linear-gradient(135deg,#0d47a1,#1976d2);color:#fff}
+
+/* ── SRS MODAL ── */
+#srs-modal{display:none;position:fixed;inset:0;z-index:7000;
+  background:linear-gradient(145deg,#FFF0F6,#FCE4EC);flex-direction:column}
+#srs-modal.show{display:flex}
+.sm-hdr{padding:12px 14px;display:flex;align-items:center;gap:10px;flex-shrink:0;
+  background:linear-gradient(135deg,#0d47a1,#1976d2)}
+.sm-title{font-size:16px;font-weight:900;color:#fff;flex:1}
+.sm-close{background:rgba(255,255,255,.2);border:none;color:#fff;font-size:20px;
+  width:34px;height:34px;border-radius:50%;cursor:pointer;
+  display:flex;align-items:center;justify-content:center}
+.sm-body{flex:1;overflow-y:auto;padding:14px;background:#FFF5F8}
+.sm-stats{display:flex;gap:8px;margin-bottom:13px}
+.sm-stat{flex:1;background:#FFFFFF;border:1.5px solid var(--border);
+  border-radius:12px;padding:12px 9px;text-align:center;box-shadow:0 2px 6px rgba(233,30,140,.07)}
+.sm-n{font-size:26px;font-weight:900;line-height:1;
+  background:linear-gradient(135deg,#ff6b9d,#c060ff);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sm-l{font-size:11px;color:rgba(255,255,255,.35);font-weight:700;margin-top:4px}
+.sm-start{width:100%;border:none;border-radius:14px;padding:13px;
+  background:linear-gradient(135deg,#0d47a1,#1976d2);color:#fff;
+  font-size:15px;font-weight:800;cursor:pointer;font-family:inherit;margin-bottom:13px}
+.sm-list{display:flex;flex-direction:column;gap:7px}
+.sm-item{background:#FFFFFF;border:1px solid var(--border);
+  border-radius:11px;padding:11px 13px;display:flex;align-items:center;gap:9px;box-shadow:0 1px 4px rgba(233,30,140,.05)}
+.sm-ko{font-size:18px;font-weight:900;color:var(--ko);flex-shrink:0;min-width:60px}
+.sm-kata{font-size:12px;color:var(--kata);font-weight:700;flex:1}
+.sm-badge{font-size:10px;font-weight:700;padding:3px 9px;border-radius:7px;white-space:nowrap}
+.sm-badge.now{background:rgba(244,67,54,.2);color:#ef9a9a}
+.sm-badge.tod{background:rgba(255,167,38,.2);color:#ffcc80}
+.sm-badge.lat{background:rgba(76,175,80,.2);color:#a5d6a7}
+.sm-card{background:#FFFFFF;border:1.5px solid var(--border);
+  border-radius:16px;padding:22px 18px;text-align:center;margin-bottom:12px;box-shadow:0 2px 10px rgba(233,30,140,.08)}
+.sm-q{font-size:36px;font-weight:900;color:var(--ko);margin-bottom:6px}
+.sm-qkata{font-size:18px;font-weight:800;color:var(--kata);margin-bottom:6px}
+.sm-hint{font-size:12px;color:rgba(255,255,255,.3)}
+.sm-see{border:none;border-radius:11px;padding:10px 22px;margin-top:12px;
+  background:linear-gradient(135deg,#6b1fa2,#c060ff);color:#fff;
+  font-size:13px;font-weight:800;cursor:pointer;font-family:inherit}
+.sm-ans{display:none;margin-bottom:12px}
+.sm-ans.show{display:block}
+.sm-ans-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);
+  border-radius:13px;padding:15px;margin-bottom:10px}
+.sm-rate{display:flex;gap:7px}
+.sm-rb{flex:1;border:none;border-radius:12px;padding:11px 6px;
+  font-size:12px;font-weight:800;cursor:pointer;font-family:inherit}
+.sm-rb.h{background:rgba(244,67,54,.18);color:#ef9a9a}
+.sm-rb.o{background:rgba(255,167,38,.18);color:#ffcc80}
+.sm-rb.e{background:rgba(76,175,80,.18);color:#a5d6a7}
+
+/* PRONUNCIATION CARD */
+.pron-card{background:#FCE4EC;border:1.5px solid var(--border2);
+  border-radius:14px;padding:13px 15px;margin-top:9px}
+.pc-title{font-size:11px;font-weight:800;color:var(--accent);margin-bottom:8px;letter-spacing:.5px}
+.pc-target{font-size:16px;font-weight:900;color:var(--ko);margin-bottom:4px}
+.pc-kata{font-size:14px;font-weight:800;color:var(--kata);margin-bottom:9px}
+.pc-btn{width:100%;border:none;border-radius:12px;padding:10px;
+  font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;
+  display:flex;align-items:center;justify-content:center;gap:7px;transition:all .2s}
+.pc-btn.idle{background:linear-gradient(135deg,#4a148c,#7b1fa2);color:#fff}
+.pc-btn.rec{background:linear-gradient(135deg,#b71c1c,#e53935);color:#fff;
+  animation:recP .8s infinite alternate}
+@keyframes recP{from{box-shadow:0 0 0 0 rgba(229,57,53,.4)}to{box-shadow:0 0 0 8px rgba(229,57,53,0)}}
+.pc-btn.done{background:linear-gradient(135deg,#1b5e20,#2e7d32);color:#fff}
+.pc-score{text-align:center;margin-top:9px}
+.pc-num{font-size:40px;font-weight:900;line-height:1}
+.pc-bar{height:8px;background:rgba(255,255,255,.1);border-radius:5px;overflow:hidden;margin-top:7px}
+.pc-fill{height:100%;border-radius:5px;transition:width 1s ease}
+.pc-fill.hi{background:linear-gradient(90deg,#2e7d32,#66bb6a)}
+.pc-fill.md{background:linear-gradient(90deg,#e65100,#ffa726)}
+.pc-fill.lo{background:linear-gradient(90deg,#b71c1c,#ef5350)}
+
+/* REPORT */
+.rep-panel{display:none;flex-direction:column;gap:11px;overflow-y:auto;
+  padding:13px 11px;background:#FFF0F6;flex:1}
+.rep-panel.show{display:flex}
+.rep-card{background:#FFFFFF;border:1.5px solid var(--border);border-radius:var(--r);padding:17px 15px;box-shadow:var(--shadow)}
+.rep-title{font-size:15px;font-weight:800;margin-bottom:13px;color:var(--text);
+  display:flex;align-items:center;gap:8px}
+.rep-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.rep-stat{background:rgba(255,255,255,.04);border-radius:11px;padding:13px 9px;text-align:center;
+  border:1px solid rgba(255,255,255,.06)}
+.rep-n{font-size:26px;font-weight:900;line-height:1;
+  background:linear-gradient(135deg,var(--ko),var(--accent));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.rep-l{font-size:11px;color:rgba(255,255,255,.35);font-weight:700;margin-top:4px}
+.sk-row{margin-bottom:11px}
+.sk-labels{display:flex;justify-content:space-between;font-size:12px;
+  font-weight:700;margin-bottom:5px;color:rgba(255,255,255,.55)}
+.sk-track{height:10px;background:rgba(255,255,255,.07);border-radius:6px;overflow:hidden}
+.sk-fill{height:100%;border-radius:6px;transition:width 1.2s ease}
+.sk-fill.pk{background:linear-gradient(90deg,var(--ko),#ff8fab)}
+.sk-fill.pu{background:linear-gradient(90deg,var(--accent2),var(--accent))}
+.sk-fill.cy{background:linear-gradient(90deg,#006064,var(--kata))}
+.sk-fill.gn{background:linear-gradient(90deg,#1b5e20,#66bb6a)}
+.tip-row{display:flex;gap:9px;align-items:flex-start;padding:10px 11px;
+  background:rgba(255,255,255,.03);border-radius:11px;margin-bottom:7px;
+  border:1px solid rgba(255,255,255,.05)}
+.tip-icon{font-size:20px;flex-shrink:0}
+.tip-text{font-size:12.5px;color:rgba(255,255,255,.55);line-height:1.6;font-weight:600}
+
+/* STATUS BARS */
+.status-bar{display:none;align-items:center;gap:8px;
+  padding:6px 12px;flex-shrink:0;background:#FCE4EC;border-top:1px solid var(--border)}
+.status-bar.show{display:flex}
+.s-lbl{font-size:11px;font-weight:700;flex:1;color:var(--text2);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.s-clr{border-radius:6px;padding:3px 9px;font-size:11px;font-weight:700;cursor:pointer;
+  border:none;background:rgba(244,67,54,.2);color:#ef9a9a;font-family:inherit}
+.img-th{width:36px;height:36px;object-fit:cover;border-radius:7px;
+  border:1.5px solid var(--border2);flex-shrink:0}
+.url-bar{display:none;padding:5px 10px;gap:7px;align-items:center;flex-shrink:0;
+  background:var(--bg2);border-top:1px solid var(--border)}
+.url-bar.show{display:flex}
+.url-inp{flex:1;background:var(--card);border:1.5px solid var(--border2);
+  border-radius:8px;padding:7px 11px;font-size:13px;outline:none;
+  color:var(--text);font-family:inherit}
+.url-inp::placeholder{color:var(--text3)}
+.url-go{border:none;border-radius:8px;padding:7px 14px;
+  background:var(--accent2);color:#fff;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit}
+
+/* INPUT BAR */
+.inp-bar{padding:8px 10px 12px;display:flex;gap:7px;align-items:flex-end;flex-shrink:0;
+  background:#FFFFFF;border-top:2px solid var(--border);box-shadow:0 -2px 12px rgba(233,30,140,.06)}
+.tool{width:44px;height:44px;border-radius:13px;font-size:20px;cursor:pointer;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;transition:all .2s;
+  background:#FFF0F6;border:1.5px solid var(--border2);
+  color:var(--text2);box-shadow:0 1px 4px rgba(233,30,140,.08)}
+.tool:active{transform:scale(.9)}
+.tool.rec{background:linear-gradient(135deg,#b71c1c,#e53935)!important;
+  color:#fff!important;border-color:#e53935!important;animation:recP .8s infinite alternate}
+.tool.on{background:#FCE4EC!important;border-color:var(--ko)!important;color:var(--ko)!important}
+.ta{flex:1;background:#FFF0F6;border:2px solid var(--border2);border-radius:14px;
+  padding:10px 14px;font-size:14px;resize:none;outline:none;line-height:1.5;
+  max-height:96px;min-height:44px;font-family:inherit;color:var(--text);
+  transition:all .2s}
+.ta:focus{border-color:var(--ko);background:#FFFFFF;box-shadow:0 0 0 3px rgba(233,30,140,.12)}
+.ta::placeholder{color:var(--text3)}
+.go{width:46px;height:44px;border-radius:14px;border:none;color:#fff;font-size:20px;
+  cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#E91E8C,#880E4F);
+  box-shadow:0 4px 16px rgba(233,30,140,.4);transition:all .2s}
+.go:active{opacity:.8;transform:scale(.93)}
+.go:disabled{background:var(--card)!important;box-shadow:none!important;color:var(--text3)!important}
+
+/* FAB */
+.fab-row{position:fixed;right:13px;bottom:74px;display:flex;flex-direction:column;gap:9px;z-index:500}
+.fab{width:50px;height:50px;border-radius:50%;border:none;cursor:pointer;font-size:21px;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 14px rgba(0,0,0,.35);transition:all .2s;position:relative}
+.fab:active{transform:scale(.9)}
+.fab.listen{background:linear-gradient(135deg,#E91E8C,#F06292);box-shadow:0 4px 14px rgba(233,30,140,.4)}
+.fab.wrd{background:linear-gradient(135deg,#880E4F,#C2185B);box-shadow:0 4px 14px rgba(136,14,79,.4)}
+.fab.rev{background:linear-gradient(135deg,#006064,#0097A7);box-shadow:0 4px 14px rgba(0,96,100,.35)}
+.fab-n{position:absolute;top:-4px;right:-4px;background:#f44336;color:#fff;
+  font-size:10px;font-weight:900;min-width:17px;height:17px;border-radius:9px;
+  display:flex;align-items:center;justify-content:center;padding:0 3px}
+
+/* LEVEL UP */
+#lvlup{display:none;position:fixed;inset:0;z-index:8888;
+  background:rgba(0,0,0,.85);backdrop-filter:blur(8px);
+  align-items:center;justify-content:center}
+#lvlup.show{display:flex}
+.lvl-card{background:#fff;border-radius:24px;padding:32px 28px;
+  text-align:center;max-width:290px;animation:lvlPop .5s cubic-bezier(.2,1.5,.5,1)}
+@keyframes lvlPop{from{transform:scale(.3);opacity:0}to{transform:scale(1);opacity:1}}
+.lvl-emoji{font-size:68px;margin-bottom:11px;display:block}
+.lvl-title{font-size:22px;font-weight:900;margin-bottom:6px;color:#2d0050}
+.lvl-sub{font-size:13px;color:#546e7a;line-height:1.65;margin-bottom:18px}
+.lvl-btn{width:100%;border:none;border-radius:14px;padding:13px;
+  font-size:15px;font-weight:800;cursor:pointer;color:#fff;font-family:inherit}
+
+/* EFFECTS */
+.cfi-wrap{position:fixed;inset:0;pointer-events:none;z-index:9200;overflow:hidden}
+.cfi{position:absolute;width:9px;height:9px;border-radius:2px;
+  animation:cfiFall linear forwards}
+@keyframes cfiFall{0%{opacity:1;transform:translateY(-20px) rotate(0deg)}
+  100%{opacity:0;transform:translateY(100vh) rotate(720deg)}}
+.xp-pop{position:fixed;font-size:17px;font-weight:900;pointer-events:none;z-index:8001;
+  color:var(--ko);text-shadow:0 2px 8px rgba(0,0,0,.5);
+  animation:xpPop 1.2s ease forwards;white-space:nowrap}
+@keyframes xpPop{0%{opacity:0;transform:translateY(0) scale(.5)}
+  30%{opacity:1;transform:translateY(-20px) scale(1.2)}
+  70%{opacity:1;transform:translateY(-40px) scale(1)}
+  100%{opacity:0;transform:translateY(-60px)}}
+.flash{position:fixed;inset:0;pointer-events:none;z-index:8000;
+  background:rgba(255,107,157,.1);animation:fls .4s ease}
+@keyframes fls{0%{opacity:0}30%{opacity:1}100%{opacity:0}}
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="sp-icon">🌸</div>
+  <div class="sp-title">韓国語 Journey</div>
+  <div class="sp-ko">한국어 여행</div>
+  <div class="sp-sub">赤ちゃん式 · 4層表記 · GEMINI 2.5</div>
+  <div class="sp-bar"><div class="sp-fill"></div></div>
+</div>
+
+
+<!-- ONBOARDING -->
+<div id="onboard" style="display:none;position:fixed;inset:0;z-index:9000;
+  background:linear-gradient(145deg,#880E4F,#E91E8C,#F06292);
+  flex-direction:column;align-items:center;justify-content:center;padding:24px">
+  <div id="ob-slides" style="width:100%;max-width:380px">
+
+    <div class="ob-slide" id="obs0">
+      <div style="font-size:80px;text-align:center;margin-bottom:16px;animation:spF 2s ease-in-out infinite">🌸</div>
+      <div style="font-family:'Fredoka One',cursive;font-size:27px;color:#fff;text-align:center;margin-bottom:8px">韓国語 Journey へようこそ！</div>
+      <div style="font-size:22px;color:rgba(255,255,255,.75);text-align:center;margin-bottom:12px">한국어 여행 시작!</div>
+      <div style="font-size:14px;color:rgba(255,255,255,.88);text-align:center;line-height:1.8;margin-bottom:22px">
+        韓国語ゼロからOK。<br>赤ちゃんが耳から言語を覚えるように<br><strong>聴く→4層表記→話す</strong>で習得！
+      </div>
+      <div style="background:rgba(255,255,255,.15);border-radius:16px;padding:15px 18px;margin-bottom:22px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+          <span style="font-size:26px">👂</span>
+          <span style="color:#fff;font-size:13px;font-weight:700">まず<strong>耳から</strong>聴くだけでOK！</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+          <span style="font-size:26px">📖</span>
+          <span style="color:#fff;font-size:13px;font-weight:700"><strong>4層カード</strong>で漢字・ハングル・カタカナ同時表示</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <span style="font-size:26px">🤖</span>
+          <span style="color:#fff;font-size:13px;font-weight:700"><strong>AIと会話</strong>で自然に上達！</span>
+        </div>
+      </div>
+      <button onclick="obNext(1)" style="width:100%;border:none;border-radius:16px;padding:16px;
+        background:#fff;color:#880E4F;font-size:16px;font-weight:900;cursor:pointer;
+        font-family:'Nunito',sans-serif;box-shadow:0 4px 16px rgba(0,0,0,.2)">
+        次へ →
+      </button>
+    </div>
+
+    <div class="ob-slide" id="obs1" style="display:none">
+      <div style="font-size:64px;text-align:center;margin-bottom:14px">📖</div>
+      <div style="font-family:'Fredoka One',cursive;font-size:24px;color:#fff;text-align:center;margin-bottom:10px">世界初！4層同時表記カード</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.85);text-align:center;line-height:1.7;margin-bottom:18px">
+        日本人だけが使える最強の学習法！<br>漢字の知識がそのまま武器になります
+      </div>
+      <div style="border-radius:16px;overflow:hidden;margin-bottom:20px;box-shadow:0 4px 20px rgba(0,0,0,.2)">
+        <div style="background:#FFF8E1;padding:12px 16px;display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:10px;font-weight:800;color:#E65100;opacity:.7">漢字</span>
+          <span style="font-size:18px;font-weight:900;color:#E65100">學校</span>
+        </div>
+        <div style="background:#FCE4EC;padding:12px 16px;display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:10px;font-weight:800;color:#880E4F;opacity:.7">ハングル</span>
+          <span style="font-size:22px;font-weight:900;color:#880E4F">학교</span>
+        </div>
+        <div style="background:#E0F7FA;padding:12px 16px;display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:10px;font-weight:800;color:#006064;opacity:.7">超細分化</span>
+          <div style="text-align:right"><span style="font-size:16px;font-weight:900;color:#006064">ハッキョ</span><br><span style="font-size:10px;color:#00838F">「ハッ」喉で止める</span></div>
+        </div>
+        <div style="background:#E8F5E9;padding:12px 16px;display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:10px;font-weight:800;color:#1B5E20;opacity:.7">日本語</span>
+          <span style="font-size:16px;font-weight:900;color:#1B5E20">がっこう・学校</span>
+        </div>
+      </div>
+      <button onclick="obNext(2)" style="width:100%;border:none;border-radius:16px;padding:15px;
+        background:#fff;color:#880E4F;font-size:16px;font-weight:900;cursor:pointer;
+        font-family:'Nunito',sans-serif;box-shadow:0 4px 16px rgba(0,0,0,.2)">
+        次へ →
+      </button>
+    </div>
+
+    <div class="ob-slide" id="obs2" style="display:none">
+      <div style="font-size:64px;text-align:center;margin-bottom:14px">🎯</div>
+      <div style="font-family:'Fredoka One',cursive;font-size:24px;color:#fff;text-align:center;margin-bottom:10px">3つのボタンを覚えよう</div>
+      <div style="display:flex;flex-direction:column;gap:11px;margin-bottom:24px">
+        <div style="background:rgba(255,255,255,.15);border-radius:14px;padding:13px 16px;display:flex;align-items:center;gap:13px">
+          <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#E91E8C,#F06292);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">👂</div>
+          <div><div style="color:#fff;font-size:13px;font-weight:800">耳から学ぶ</div><div style="color:rgba(255,255,255,.7);font-size:12px;margin-top:2px">音声を聴いて感じるだけでOK！</div></div>
+        </div>
+        <div style="background:rgba(255,255,255,.15);border-radius:14px;padding:13px 16px;display:flex;align-items:center;gap:13px">
+          <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#880E4F,#C2185B);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">📖</div>
+          <div><div style="color:#fff;font-size:13px;font-weight:800">4層単語カード</div><div style="color:rgba(255,255,255,.7);font-size:12px;margin-top:2px">各レイヤーをタップで音声再生！</div></div>
+        </div>
+        <div style="background:rgba(255,255,255,.15);border-radius:14px;padding:13px 16px;display:flex;align-items:center;gap:13px">
+          <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#006064,#0097A7);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">🔁</div>
+          <div><div style="color:#fff;font-size:13px;font-weight:800">復習ボタン</div><div style="color:rgba(255,255,255,.7);font-size:12px;margin-top:2px">数字が出たら忘れる前に復習！</div></div>
+        </div>
+      </div>
+      <button onclick="obFinish()" style="width:100%;border:none;border-radius:16px;padding:15px;
+        background:#fff;color:#880E4F;font-size:16px;font-weight:900;cursor:pointer;
+        font-family:'Nunito',sans-serif;box-shadow:0 4px 16px rgba(0,0,0,.2)">
+        🌸 시작하자! さあ始めよう！
+      </button>
+    </div>
+
+    <div style="display:flex;justify-content:center;gap:8px;margin-top:18px">
+      <div id="od0" style="width:10px;height:10px;border-radius:50%;background:#fff;transition:all .3s"></div>
+      <div id="od1" style="width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.35);transition:all .3s"></div>
+      <div id="od2" style="width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.35);transition:all .3s"></div>
+    </div>
+  </div>
+</div>
+
+<!-- LEVEL UP -->
+<div id="lvlup">
+  <div class="lvl-card">
+    <span class="lvl-emoji" id="lu-e">🎉</span>
+    <div class="lvl-title" id="lu-t">레벨업!</div>
+    <div class="lvl-sub" id="lu-s">次のステージへ！</div>
+    <button class="lvl-btn" id="lu-btn" onclick="closeLvlUp()">계속하기！ 続ける</button>
+  </div>
+</div>
+
+<!-- LISTEN MODAL (赤ちゃん耳モード) -->
+<div id="listen-modal">
+  <div class="lm-hdr">
+    <div class="lm-title">👂 귀로 듣기 — 耳から学ぶ</div>
+    <button class="lm-close" onclick="closeListen()">✕</button>
+  </div>
+  <div class="lm-body">
+    <div class="lm-topic-bar" id="lm-topics"></div>
+    <div class="lm-card" id="lm-card">
+      <div class="lm-ko" id="lm-ko">안녕하세요</div>
+      <div class="lm-kata" id="lm-kata">アンニョンハセヨ</div>
+      <div class="lm-kata-hint" id="lm-kata-hint">「ア」ン「ニョ」ン「ハ」「セ」「ヨ」</div>
+      <div class="lm-waveform" id="lm-wf">
+        <div class="lm-wb"></div><div class="lm-wb"></div><div class="lm-wb"></div>
+        <div class="lm-wb"></div><div class="lm-wb"></div><div class="lm-wb"></div>
+        <div class="lm-wb"></div>
+      </div>
+      <div class="lm-blur" id="lm-hanja-wrap" onclick="revealListen()">
+        <div class="lm-hanja" id="lm-hanja">安寧하세요</div>
+        <div class="lm-jp" id="lm-jp">こんにちは</div>
+        <div class="lm-reveal-hint">👆 タップで意味を表示</div>
+      </div>
+    </div>
+    <div class="lm-btns">
+      <button class="lm-btn play" id="lm-play-btn" onclick="listenSpeak()">
+        <div class="wv" style="color:#fff">
+          <div class="wb"></div><div class="wb"></div><div class="wb"></div>
+          <div class="wb"></div><div class="wb"></div>
+        </div>
+        聴く
+      </button>
+      <button class="lm-btn next" onclick="listenNext()">次へ ➜</button>
+      <button class="lm-btn story" onclick="listenStory()">✨ AIストーリー</button>
+    </div>
+    <div id="lm-story-area" style="display:none;margin-top:14px;background:rgba(255,255,255,.05);
+      border:1.5px solid rgba(255,255,255,.1);border-radius:13px;padding:13px 14px;
+      font-size:14px;line-height:1.8;color:var(--text);width:100%;max-width:340px;text-align:left"></div>
+  </div>
+</div>
+
+<!-- WORD MODAL -->
+<div id="wrd-modal">
+  <div class="wm-hdr">
+    <div class="wm-title">📖 단어 학습 — 4層単語カード</div>
+    <button class="wm-close" onclick="closeWrd()">✕</button>
+  </div>
+  <div class="cat-bar" id="cat-bar"></div>
+  <div style="flex:1;overflow-y:auto">
+    <div class="wrd-scene">
+      <div class="wrd-type-badge" id="wrd-type-badge">漢字語</div>
+      <div class="wrd-emoji" id="wrd-emoji">🌸</div>
+      <div style="font-size:11px;color:#C2185B;font-weight:700;margin-bottom:6px;text-align:center">👆 各レイヤーをタップして音声を聴こう</div>
+      <div class="four-layer" id="four-layer">
+        <div class="layer hanja-l" onclick="wrdLayerTap('hanja')">
+          <span class="layer-label">漢字</span>
+          <div style="text-align:right">
+            <div class="layer-main" id="wrd-hanja">學校</div>
+          </div>
+        </div>
+        <div class="layer ko-l" onclick="wrdLayerTap('ko')">
+          <span class="layer-label">ハングル</span>
+          <div style="text-align:right">
+            <div class="layer-main" id="wrd-ko">학교</div>
+          </div>
+        </div>
+        <div class="layer kata-l" onclick="wrdLayerTap('kata')">
+          <span class="layer-label">超細分化</span>
+          <div style="text-align:right">
+            <div class="layer-main" id="wrd-kata">ハッキョ</div>
+            <div class="layer-sub" id="wrd-kata-hint">「ハッ」喉で止める</div>
+          </div>
+        </div>
+        <div class="layer jp-l" onclick="wrdLayerTap('jp')">
+          <span class="layer-label">日本語</span>
+          <div style="text-align:right">
+            <div class="layer-main" id="wrd-jp-main">がっこう・学校</div>
+          </div>
+        </div>
+      </div>
+      <div class="pron-hint" id="pron-hint">
+        <div class="pron-hint-title">🔊 発音のコツ</div>
+        <div class="pron-hint-text" id="pron-hint-text">—</div>
+      </div>
+      <div class="hanja-bonus" id="hanja-bonus" style="display:none">
+        <div class="hanja-bonus-title">💡 漢字語ボーナス — 日本語と同じ！</div>
+        <div class="hanja-bonus-row">
+          <span class="hanja-bonus-kanji" id="bonus-kanji">學校</span>
+          <span class="hanja-bonus-arrow">→</span>
+          <span class="hanja-bonus-jp" id="bonus-jp">がっこう</span>
+          <span style="color:rgba(255,215,0,.5);font-size:12px;margin-left:4px">意味が同じ！</span>
+        </div>
+      </div>
+      <div class="wrd-sent" id="wrd-sent">학교에 가요.</div>
+      <div class="wrd-sent-kata" id="wrd-sent-kata">ハッキョェ カヨ.</div>
+      <div class="wrd-sent-jp" id="wrd-sent-jp">🇯🇵 学校に行きます。</div>
+      <div class="wrd-btns">
+        <button class="wrd-btn play" onclick="wrdSpeak()">
+          <div class="wv" style="color:#fff" id="wrd-wv">
+            <div class="wb"></div><div class="wb"></div><div class="wb"></div>
+            <div class="wb"></div><div class="wb"></div>
+          </div>
+          聴く
+        </button>
+        <button class="wrd-btn rep" onclick="wrdRepeat()">🔁 くり返し</button>
+        <button class="wrd-btn next" onclick="wrdNext()">次へ ➜</button>
+      </div>
+      <div class="wrd-dots" id="wrd-dots"></div>
+      <div class="wrd-learned" id="wrd-learned">0 / 0 語学習中</div>
+      <button class="wrd-story-btn" onclick="wrdStory()">✨ AIがこの単語でストーリー生成</button>
+      <div class="wrd-story-area" id="wrd-story-area"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SRS MODAL -->
+<div id="srs-modal">
+  <div class="sm-hdr">
+    <div class="sm-title">🔁 복습 — 忘却曲線復習</div>
+    <button class="sm-close" onclick="closeSRS()">✕</button>
+  </div>
+  <div class="sm-body" id="srs-body"></div>
+</div>
+
+<!-- FAB -->
+<div class="fab-row" id="fab-row">
+  <div id="fab-menu" style="display:none;flex-direction:column;gap:8px;align-items:flex-end;margin-bottom:8px">
+    <div style="display:flex;align-items:center;gap:8px">
+      <span style="background:rgba(0,0,0,.65);color:#fff;font-size:12px;font-weight:700;
+        padding:5px 12px;border-radius:20px;white-space:nowrap;backdrop-filter:blur(4px)">耳から学ぶ</span>
+      <button class="fab listen" onclick="openListen();closeFabMenu()" style="width:46px;height:46px">👂</button>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <span style="background:rgba(0,0,0,.65);color:#fff;font-size:12px;font-weight:700;
+        padding:5px 12px;border-radius:20px;white-space:nowrap;backdrop-filter:blur(4px)">4層単語カード</span>
+      <button class="fab wrd" onclick="openWrd();closeFabMenu()" style="width:46px;height:46px">📖</button>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <span style="background:rgba(0,0,0,.65);color:#fff;font-size:12px;font-weight:700;
+        padding:5px 12px;border-radius:20px;white-space:nowrap;backdrop-filter:blur(4px)">復習</span>
+      <button class="fab rev" onclick="openSRS();closeFabMenu()" style="width:46px;height:46px">
+        🔁<span class="fab-n" id="srs-n" style="display:none">0</span>
+      </button>
+    </div>
+  </div>
+  <button class="fab" id="fab-main" onclick="toggleFabMenu()"
+    style="background:linear-gradient(135deg,#E91E8C,#880E4F);box-shadow:0 4px 16px rgba(233,30,140,.4);font-size:24px">
+    ＋
+  </button>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="hdr">
+    <div class="hdr-logo">🌸 韓国語 Journey</div>
+    <div class="hdr-right">
+      <div class="xp-col">
+        <div class="xp-lbl" id="xp-lbl">0 / 100 XP</div>
+        <div class="xp-bar"><div class="xp-fill" id="xp-fill" style="width:0%"></div></div>
+      </div>
+      <div class="stg-badge" id="stg-badge">Step 1</div>
+    </div>
+  </div>
+  <div class="roadmap" id="roadmap"></div>
+  <div class="ctrl-row">
+    <span style="font-size:11px;font-weight:700;color:rgba(255,255,255,.35)">🔊</span>
+    <button class="spd-btn" onclick="setSpd(0.55,this)">🐢 遅</button>
+    <button class="spd-btn on" onclick="setSpd(0.8,this)">🚶 普通</button>
+    <button class="spd-btn" onclick="setSpd(1.05,this)">🏃 速</button>
+    <div class="auto-wrap">自動読上<button class="tog on" id="auto-tog" onclick="toggleAuto()"></button></div>
+  </div>
+  <div class="mode-tabs" id="mode-tabs">
+    <button class="m-tab on" data-mode="chat" onclick="setMode('chat')">💬 会話</button>
+    <button class="m-tab" data-mode="lesson" onclick="setMode('lesson')">📚 レッスン</button>
+    <button class="m-tab" data-mode="correct" onclick="setMode('correct')">✏️ 添削</button>
+    <button class="m-tab" data-mode="translate" onclick="setMode('translate')">🌐 翻訳</button>
+    <button class="m-tab" data-mode="report" onclick="setMode('report')">📊 レポート</button>
+  </div>
+  <div class="chips-bar" id="chips-bar"></div>
+  <div class="msgs" id="msgs"></div>
+  <div class="rep-panel" id="rep-panel"></div>
+  <div class="status-bar" id="url-sb">
+    <span>🔗</span><span class="s-lbl" id="url-lbl">—</span>
+    <button class="s-clr" onclick="clearUrl()">✕</button>
+  </div>
+  <div class="status-bar" id="img-sb">
+    <img class="img-th" id="img-th" src="" alt="">
+    <span class="s-lbl">📷 画像添付中</span>
+    <button class="s-clr" onclick="clearImg()">✕</button>
+  </div>
+  <div class="url-bar" id="url-bar">
+    <input class="url-inp" id="url-inp" type="url" placeholder="https://... URLを入力">
+    <button class="url-go" onclick="attachUrl()">解析</button>
+    <button onclick="closeUrlBar()" style="border:none;background:none;color:var(--text3);font-size:18px;cursor:pointer">✕</button>
+  </div>
+  <input type="file" id="img-in" accept="image/*" style="display:none">
+  <div class="inp-bar">
+    <button class="tool" id="mic-btn" onclick="toggleVoice()">🎤</button>
+    <button class="tool" id="cam-btn" onclick="document.getElementById('img-in').click()">📷</button>
+    <button class="tool" id="url-btn" onclick="toggleUrlBar()">🔗</button>
+    <button class="tool" id="sch-btn" onclick="toggleSearch()">🔍</button>
+    <textarea class="ta" id="ta" rows="1"
+      placeholder="일본어로도 OK · 한국어로 말해봐요"
+      oninput="resizeTA(this)" onkeydown="onKey(event)"></textarea>
+    <button class="go" id="go-btn" onclick="doSend()">➤</button>
+  </div>
+</div>
+
+<!-- Firebase -->
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getAuth } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+const cfg = {
+  apiKey:"AIzaSyCVk2miG5TK1ffTofXLh0hHgeSbOvmIgZ8",
+  authDomain:"kensetsu-nippo-842a2.firebaseapp.com",
+  projectId:"kensetsu-nippo-842a2",
+  storageBucket:"kensetsu-nippo-842a2.firebasestorage.app",
+  messagingSenderId:"702880974315",
+  appId:"1:702880974315:web:985321dc9180046629c5ae"
+};
+const app = initializeApp(cfg);
+window.__fb = { auth:getAuth(app), db:getFirestore(app) };
+</script>
+
+<script>
+'use strict';
+
+/* ─── FIREBASE FUNCTIONS ─── */
+var FUNC = (location.hostname==='localhost'||location.hostname==='127.0.0.1')
+  ? 'http://localhost:5001/kensetsu-nippo-842a2/us-central1'
+  : 'https://us-central1-kensetsu-nippo-842a2.cloudfunctions.net';
+
+async function callGemini(system, user, useSearch, useUrl, media) {
+  var body = { prompt:system+'\n\nUser: '+user, model:'gemini-2.5-flash', useSearch:!!useSearch };
+  if (useUrl) { body.useUrl = true; body.url = useUrl; }
+  if (media && media.length) body.mediaContents = media;
+  var r = await fetch(FUNC+'/askAI', {
+    method:'POST', headers:{'Content-Type':'application/json','x-access-key':'HeartsHouse2026Key'},
+    body:JSON.stringify(body)
+  });
+  if (!r.ok) { var e=await r.json().catch(function(){return {};}); throw new Error(e.error||r.status); }
+  var d = await r.json();
+  var _t = d&&d.data&&d.data.text;
+  if (!_t && d.candidates && d.candidates[0]) {
+    var p = d.candidates[0].content;
+    p = p && p.parts && p.parts[0];
+    _t = p && p.text;
+  }
+  return _t || d.text || d.result || '응답 없음';
+}
+
+/* ─── 超細分化カタカナ発音マップ ─── */
+var KATA_MAP = {
+  // 母音
+  'ㅏ':'ア','ㅓ':'ォア（口を縦に開けたオ）','ㅗ':'オ','ㅜ':'ウ（唇を前へ）',
+  'ㅡ':'ゥ゜（唇を横に引く・日本語にない音）','ㅣ':'イ',
+  'ㅐ':'ェア（エとアの中間）','ㅔ':'ェ（口を開けたエ）',
+  'ㅑ':'ヤ','ㅕ':'ョァ（ヨとアの中間）','ㅛ':'ヨ','ㅠ':'ユ',
+  'ㅘ':'ワ','ㅝ':'ウォ','ㅢ':'ゥイ',
+  // 平音
+  'ㄱ':'クﾞ（喉の奥でストップ）','ㄴ':'ヌﾞ（鼻に抜ける）','ㄷ':'トﾞ（歯茎でストップ）',
+  'ㄹ':'ルﾞ（舌先を弾く）','ㅁ':'ムﾞ（唇を閉じて鼻）','ㅂ':'プﾞ（唇を弾く）',
+  'ㅅ':'スﾞ（歯の隙間から）','ㅇ':'ングﾞ（語末のみ）','ㅈ':'ヅﾞ（強めのヅ）',
+  'ㅎ':'フﾞ（喉から出す）',
+  // 激音
+  'ㅋ':'クッ！（空気爆発）','ㅌ':'トッ！（空気爆発）','ㅍ':'プッ！（空気爆発）','ㅊ':'チッ！（空気爆発）',
+  // 濃音
+  'ㄲ':'ックﾞ（力んで詰まる）','ㄸ':'ットﾞ（力んで詰まる）','ㅃ':'ップﾞ（唇を力んで）',
+  'ㅆ':'ッスﾞ（力んで）','ㅉ':'ッヅﾞ（力んで）'
+};
+
+/* ─── WORD DATA ─── */
+// type: H=漢字語 N=固有語 L=外来語
+var WD = [
+  // あいさつ
+  {e:'👋',k:'안녕하세요',kta:'アンニョンハセヨ',kth:'「ア」ンニョン「ハ」セヨ — ンは鼻に抜く',
+   hj:'安寧하세요',jp:'こんにちは',jpb:'',
+   s:'안녕하세요! 만나서 반갑습니다.',sta:'アンニョンハセヨ！マンナソ バンガッスムニダ.',stj:'こんにちは！お会いできて嬉しいです。',t:'N',c:'あいさつ'},
+  {e:'🙏',k:'감사합니다',kta:'カムサハムニダ',kth:'「カム」サ「ハム」ニダ — カムは唇を閉じて',
+   hj:'感謝합니다',jp:'ありがとうございます',jpb:'感謝（감사）= 感謝、同じ！',
+   s:'감사합니다! 정말 친절하시네요.',sta:'カムサハムニダ！チョンマル チンジョラシネヨ.',stj:'ありがとう！本当に親切ですね。',t:'H',c:'あいさつ'},
+  {e:'😊',k:'괜찮아요',kta:'クェンチャナヨ',kth:'「クェン」は口を横に引く — チャナヨは勢いよく',
+   hj:'',jp:'大丈夫です',jpb:'',
+   s:'괜찮아요, 걱정하지 마세요.',sta:'クェンチャナヨ、コッチョンハジ マセヨ.',stj:'大丈夫です、心配しないでください。',t:'N',c:'あいさつ'},
+  {e:'🤝',k:'처음 뵙겠습니다',kta:'チョウム ペッケッスムニダ',kth:'チョウム＝初めて、ペッ＝お目にかかる（丁寧）',
+   hj:'',jp:'はじめまして',jpb:'',
+   s:'처음 뵙겠습니다. 잘 부탁드립니다.',sta:'チョウム ペッケッスムニダ. チャル プタクトゥリムニダ.',stj:'はじめまして。よろしくお願いします。',t:'N',c:'あいさつ'},
+  // 旅行
+  {e:'✈️',k:'공항',kta:'コンハン',kth:'「コン」は鼻に抜く — ハンは短く',
+   hj:'空港',jp:'くうこう',jpb:'空港（공항）= 空港、同じ漢字！',
+   s:'공항이 어디에 있어요?',sta:'コンハンイ オディエ イッソヨ？',stj:'空港はどこにありますか？',t:'H',c:'旅行'},
+  {e:'🏨',k:'호텔',kta:'ホテル',kth:'ほぼ日本語と同じ！外来語は簡単',
+   hj:'',jp:'ホテル',jpb:'英語 hotel からの外来語',
+   s:'호텔을 예약했어요.',sta:'ホテルル イェヤッケッソヨ.',stj:'ホテルを予約しました。',t:'L',c:'旅行'},
+  {e:'🎫',k:'입장권',kta:'イプチャングォン',kth:'「イプ」は唇を弾く — チャン、グォンと続ける',
+   hj:'入場券',jp:'にゅうじょうけん',jpb:'入場券（입장권）= 入場券、完全に同じ！',
+   s:'입장권 두 장 주세요.',sta:'イプチャングォン トゥ ヂャン ヂュセヨ.',stj:'入場券を2枚ください。',t:'H',c:'旅行'},
+  {e:'🗺️',k:'지도',kta:'チド',kth:'「チ」舌を歯茎に — ド短く',
+   hj:'地圖',jp:'ちず',jpb:'地図（지도）= 地図、同じ！',
+   s:'지도 좀 보여주세요.',sta:'チド チョム ポヨヂュセヨ.',stj:'地図を見せてください。',t:'H',c:'旅行'},
+  {e:'💱',k:'환전',kta:'ファンヂョン',kth:'「ファン」は唇を丸めながら — ヂョンは日本語の「ぢょん」',
+   hj:'換錢',jp:'りょうがえ',jpb:'換錢（환전）= 両替',
+   s:'환전 어디서 할 수 있어요?',sta:'ファンヂョン オディソ ハル ス イッソヨ？',stj:'両替はどこでできますか？',t:'H',c:'旅行'},
+  {e:'🚇',k:'지하철',kta:'チハチョル',kth:'「チハ」地下、「チョル」鉄 — 速く言う',
+   hj:'地下鐵',jp:'ちかてつ',jpb:'地下鉄（지하철）= 地下鉄、同じ！',
+   s:'지하철 몇 호선이에요?',sta:'チハチョル ミョッ ホソニエヨ？',stj:'地下鉄何号線ですか？',t:'H',c:'旅行'},
+  // レストラン
+  {e:'🍽️',k:'메뉴',kta:'メニュ',kth:'ほぼ日本語と同じ！',
+   hj:'',jp:'メニュー',jpb:'英語 menu からの外来語',
+   s:'메뉴 좀 보여주세요.',sta:'メニュ チョム ポヨヂュセヨ.',stj:'メニューを見せてください。',t:'L',c:'食事'},
+  {e:'🥢',k:'맛있어요',kta:'マシッソヨ',kth:'「マ」シッ — ッは喉でストップ！ソヨ',
+   hj:'',jp:'おいしいです',jpb:'',
+   s:'정말 맛있어요! 최고예요.',sta:'チョンマル マシッソヨ！チェゴエヨ.',stj:'本当においしいです！最高です。',t:'N',c:'食事'},
+  {e:'💳',k:'계산서',kta:'ケサンソ',kth:'「ケ」サン「ソ」— 계は「ケ」と読む',
+   hj:'計算書',jp:'おかいけい',jpb:'計算書（계산서）= 会計・勘定書',
+   s:'계산서 주세요.',sta:'ケサンソ ヂュセヨ.',stj:'お会計をください。',t:'H',c:'食事'},
+  {e:'🌶️',k:'맵다',kta:'メプタ',kth:'「メプ」は唇を合わせて — タと切る',
+   hj:'',jp:'辛い',jpb:'',
+   s:'이 음식은 많이 매워요.',sta:'イ ウムシグン マニ メウォヨ.',stj:'この料理はとても辛いです。',t:'N',c:'食事'},
+  // K-POP・드라마
+  {e:'💜',k:'사랑해',kta:'サランへ',kth:'「サラン」愛 — 「へ」は하다の縮約。大事な言葉！',
+   hj:'',jp:'愛してる',jpb:'',
+   s:'사랑해, 영원히.',sta:'サランへ、ヨンウォニ.',stj:'愛してる、永遠に。',t:'N',c:'K-POP'},
+  {e:'🎵',k:'노래',kta:'ノレ',kth:'「ノレ」短く元気よく！',
+   hj:'',jp:'歌',jpb:'',
+   s:'노래를 같이 불러요!',sta:'ノレルル カチ プルロヨ！',stj:'一緒に歌いましょう！',t:'N',c:'K-POP'},
+  {e:'🌟',k:'대박',kta:'テバク',kth:'「テ」「バク」— バクは唇を弾く。スラング！',
+   hj:'',jp:'すごい！やばい！',jpb:'',
+   s:'이 노래 대박이에요!',sta:'イ ノレ テバギエヨ！',stj:'この曲、やばいです！',t:'N',c:'K-POP'},
+  {e:'👦',k:'오빠',kta:'オッパ',kth:'「オッ」ッを詰まらせて「パ」 — 女性が年上男性を呼ぶ',
+   hj:'',jp:'お兄さん（女性が呼ぶ）',jpb:'',
+   s:'오빠, 보고 싶었어.',sta:'オッパ、ポゴ シッポッソ.',stj:'お兄ちゃん、会いたかった。',t:'N',c:'K-POP'},
+  {e:'😎',k:'멋있다',kta:'モシッタ',kth:'「モシッ」ッで詰まる — タと切る。かっこいい！',
+   hj:'',jp:'かっこいい',jpb:'',
+   s:'진짜 멋있어요!',sta:'チンヂャ モシッソヨ！',stj:'本当にかっこいいです！',t:'N',c:'K-POP'},
+  // 数字
+  {e:'1️⃣',k:'일',kta:'イル',kth:'「イル」短く — 一（일）漢字語の数字',
+   hj:'一',jp:'いち',jpb:'一（일）= 一、同じ！',
+   s:'일 번 주세요.',sta:'イル ボン ヂュセヨ.',stj:'1番をください。',t:'H',c:'数字'},
+  {e:'2️⃣',k:'이',kta:'イ',kth:'「イ」一音だけ — 二（이）',
+   hj:'二',jp:'に',jpb:'二（이）= 二',s:'이 번 출구예요.',sta:'イ ボン チュルグエヨ.',stj:'2番出口です。',t:'H',c:'数字'},
+  {e:'3️⃣',k:'삼',kta:'サム',kth:'「サム」鼻に抜ける — 三（삼）',
+   hj:'三',jp:'さん',jpb:'三（삼）= 三、そっくり！',s:'삼만 원이에요.',sta:'サムマン ウォニエヨ.',stj:'3万ウォンです。',t:'H',c:'数字'},
+  {e:'💰',k:'만원',kta:'マヌォン',kth:'「マン」万、「ウォン」円 — ウォンはゥに近い',
+   hj:'萬圓',jp:'まんウォン',jpb:'万（만）= 万、同じ！',
+   s:'얼마예요? — 만 원이에요.',sta:'オルマエヨ？— マン ウォニエヨ.',stj:'いくらですか？— 1万ウォンです。',t:'H',c:'数字'},
+  // 日常
+  {e:'🏫',k:'학교',kta:'ハッキョ',kth:'「ハッ」喉でストップ！「キョ」と続ける',
+   hj:'學校',jp:'がっこう',jpb:'学校（학교）= 学校、完全に同じ！',
+   s:'학교에 가요.',sta:'ハッキョェ カヨ.',stj:'学校に行きます。',t:'H',c:'日常'},
+  {e:'📞',k:'전화',kta:'チョンファ',kth:'「チョン」鼻に抜ける — 「ファ」は唇を丸めて',
+   hj:'電話',jp:'でんわ',jpb:'電話（전화）= 電話、同じ！',
+   s:'전화번호 알려주세요.',sta:'チョンファボノ アルリョヂュセヨ.',stj:'電話番号を教えてください。',t:'H',c:'日常'},
+  {e:'🏥',k:'병원',kta:'ピョンウォン',kth:'「ピョン」平、「ウォン」院 — 病院！',
+   hj:'病院',jp:'びょういん',jpb:'病院（병원）= 病院、同じ！',
+   s:'병원이 어디 있어요?',sta:'ピョンウォニ オディ イッソヨ？',stj:'病院はどこですか？',t:'H',c:'日常'},
+  {e:'☕',k:'커피',kta:'コ゜ピ',kth:'「コ゜」唇を前に突き出す — 英語coffeeから',
+   hj:'',jp:'コーヒー',jpb:'英語 coffee → 커피',
+   s:'커피 한 잔 주세요.',sta:'コ゜ピ ハン ヂャン ヂュセヨ.',stj:'コーヒーを1杯ください。',t:'L',c:'日常'},
+  {e:'🏠',k:'집',kta:'チプ',kth:'「チプ」最後は唇を閉じて止める',
+   hj:'',jp:'家・うち',jpb:'',
+   s:'집에 가고 싶어요.',sta:'チベ カゴ シッポヨ.',stj:'家に帰りたいです。',t:'N',c:'日常'},
+  // 感情
+  {e:'😊',k:'행복하다',kta:'ヘンボカダ',kth:'「ヘン」鼻に抜ける「ボ」「カ」「ダ」',
+   hj:'幸福하다',jp:'しあわせだ',jpb:'幸福（행복）= 幸福、同じ！',
+   s:'지금 정말 행복해요.',sta:'チグム チョンマル ヘンボケヨ.',stj:'今、本当に幸せです。',t:'H',c:'感情'},
+  {e:'😢',k:'슬프다',kta:'スルプダ',kth:'「スル」「プ」唇を弾く「ダ」',
+   hj:'',jp:'悲しい',jpb:'',
+   s:'왜 슬퍼요?',sta:'ウェ スルポヨ？',stj:'なぜ悲しいですか？',t:'N',c:'感情'},
+  {e:'😠',k:'화나다',kta:'ファナダ',kth:'「ファ」唇を丸める「ナ」「ダ」',
+   hj:'火나다',jp:'怒る',jpb:'火（화）= 火・怒り、漢字語！',
+   s:'왜 화가 났어요?',sta:'ウェ ファガ ナッソヨ？',stj:'なぜ怒っているんですか？',t:'H',c:'感情'},
+  {e:'🤩',k:'신나다',kta:'シンナダ',kth:'「シン」興、「ナ」「ダ」— ワクワクする！',
+   hj:'',jp:'わくわくする',jpb:'',
+   s:'너무 신나요!',sta:'ノム シンナヨ！',stj:'とてもわくわくします！',t:'N',c:'感情'},
+  // ハングル母音
+  {e:'🔤',k:'ㅏ (아)',kta:'ア',kth:'日本語の「ア」と同じ。一番基本の母音',
+   hj:'',jp:'ア',jpb:'',
+   s:'아버지 (アボヂ) = お父さん',sta:'アボヂ',stj:'ハングル基本母音「ア」',t:'N',c:'ハングル'},
+  {e:'🔤',k:'ㅓ (어)',kta:'ォア',kth:'口を縦に大きく開けた「オ」— 日本語にない音！',
+   hj:'',jp:'（口を縦に開けたオ）',jpb:'',
+   s:'어머니 (ォモニ) = お母さん',sta:'ォモニ',stj:'ハングル母音「ォア」',t:'N',c:'ハングル'},
+  {e:'🔤',k:'ㅡ (으)',kta:'ゥ゜',kth:'唇を横に引いたまま「ウ」— 日本語にない！',
+   hj:'',jp:'（唇を横に引いたウ）',jpb:'',
+   s:'으음... (ゥゥム) = うーん...',sta:'ゥゥム',stj:'ハングル母音「ゥ゜」',t:'N',c:'ハングル'},
+];
+
+/* ─── STAGES ─── */
+var STAGES = [
+  { id:1, e:'🌸', name:'耳から', badge:'Step 1 🌸', xpMax:100,
+    luE:'🌺', luT:'Step 2 へ！', luC:'#ff6b9d',
+    luS:'音のリズムが掴めてきました！\n次はハングル文字に進みます。',
+    ph:'일본어로도 OK · まず聴くだけでも大丈夫',
+    chips:['👂 안녕하세요を聴く','🎵 K-POPフレーズ','😊 감사합니다','💜 사랑해の意味'],
+    modes:{
+      chat:`You are ARIA, a warm Korean teacher for Japanese adults who are complete beginners.
+RULES:
+- Adult learner with zero Korean. Treat with full respect.
+- Respond with MAX 2 simple Korean sentences (very basic level)
+- ALWAYS show: Korean → 超細分化カタカナ → 🇯🇵 Japanese
+- Format each phrase as:
+  🇰🇷 [Korean]
+  🔊 [Ultra-fine Katakana with pronunciation hints]
+  🇯🇵 [Japanese meaning]
+- Focus on sounds and rhythm, not grammar
+- Topics: greetings, K-POP words, basic expressions
+- End with ONE phrase to try
+- If Japanese input: show Korean equivalent warmly`,
+      lesson:`Simple Korean lesson for Japanese adult beginners.
+Show: Korean → 超細分化カタカナ → 漢字（if exists）→ Japanese.
+Focus on sounds first, then meaning.`,
+      correct:`Gently correct beginner Korean. Show corrections with katakana and Japanese.`,
+      translate:`Translate between Japanese and Korean. Always show:
+Korean / 超細分化カタカナ / 漢字（if applicable）/ Japanese.`
+    }
+  },
+  { id:2, e:'🌺', name:'ハングル', badge:'Step 2 🌺', xpMax:280,
+    luE:'🌻', luT:'Step 3 へ！', luC:'#ff9040',
+    luS:'ハングルが読めるようになりました！\n日常会話フレーズに進みます。',
+    ph:'ハングルを読んでみよう！カタカナで確認',
+    chips:['📝 ハングル練習','🔤 母音を覚える','🔤 子音を覚える','✍️ 自分の名前をハングルで'],
+    modes:{
+      chat:`Korean teacher for Japanese adults at beginner level (learning Hangul).
+ALWAYS show 4 layers for key words:
+  🇰🇷 Korean (Hangul)
+  🔊 超細分化カタカナ (with pronunciation hints)
+  漢字 (if applicable - mark as 漢字語)
+  🇯🇵 Japanese
+Teach Hangul consonants/vowels with katakana comparison.
+Celebrate every attempt enthusiastically.`,
+      lesson:`Hangul lesson: teach consonants, vowels, syllable blocks.
+Compare with Japanese sounds using 超細分化カタカナ.
+Show 4-layer display for all vocabulary.`,
+      correct:`Correct Hangul writing with 4-layer display. Explain pronunciation.`,
+      translate:`Full 4-layer translation: Korean/超細分化カタカナ/漢字/Japanese.`
+    }
+  },
+  { id:3, e:'🌻', name:'日常会話', badge:'Step 3 🌻', xpMax:600,
+    luE:'🌟', luT:'Step 4 へ！', luC:'#ffd700',
+    luS:'日常会話ができるようになりました！\nK-POPとドラマ表現に進みます。',
+    ph:'한국어로 말해봐요！間違いOK',
+    chips:['🍽️ レストランで','🛍️ ショッピング','🏨 ホテルで','🚇 交通'],
+    modes:{
+      chat:`Korean teacher for Japanese adults at A2 level.
+Natural conversation with 4-layer display for new vocabulary:
+  🇰🇷 Korean / 🔊 超細分化カタカナ / 漢字 / 🇯🇵 Japanese
+Topics: travel, food, shopping, daily life in Korea.
+Highlight 漢字語 (Chinese-origin words) that match Japanese.
+This is a huge advantage for Japanese learners!`,
+      lesson:`A2 Korean lesson. Daily life scenarios. 4-layer display. Emphasize 漢字語 similarities.`,
+      correct:`A2 correction with 4-layer display and grammar explanation in Japanese.`,
+      translate:`Natural KO/JP translation with 4 layers and cultural notes.`
+    }
+  },
+  { id:4, e:'🌟', name:'K-POP・ドラマ', badge:'Step 4 🌟', xpMax:1000,
+    luE:'🏆', luT:'マスター解放！', luC:'#c060ff',
+    luS:'K-POP・ドラマ表現が使えます！\nGeminiフル機能解放！',
+    ph:'K-POPの歌詞・ドラマ表現を練習しよう',
+    chips:['🎵 K-POP歌詞を解析','📺 ドラマのセリフ','💜 敬語と반말','🎤 K-POPを歌う'],
+    modes:{
+      chat:`Korean teacher for Japanese adults at B1 level. K-POP and drama focus.
+Teach natural expressions used in songs and dramas.
+Explain 존댓말 (formal) vs 반말 (casual) with examples.
+4-layer display for vocabulary, with cultural context.`,
+      lesson:`B1 K-POP/drama Korean. Real lyrics and dialogue analysis. Cultural context.`,
+      correct:`Professional Korean writing correction. Formal/casual register guidance.`,
+      translate:`Expert KO/JP translation with K-POP/drama cultural notes.`
+    }
+  },
+  { id:5, e:'🏆', name:'マスター', badge:'🏆 마스터', xpMax:99999,
+    luE:'🏆', luT:'', luC:'#4fc3f7', luS:'',
+    ph:'한국어・日本語・URLでも何でもOK',
+    chips:['📝 作文添削','🌐 翻訳','🎵 K-POP歌詞解析','📺 ドラマ台本','🎯 発音改善','🔗 記事読解'],
+    modes:{
+      chat:`World-class Korean language coach for Japanese learners at B2-C1.
+Full capabilities: free conversation, nuanced expressions, cultural depth.
+4-layer display when introducing new vocabulary.
+TOPIK exam preparation available.`,
+      lesson:`Advanced Korean lessons. TOPIK level content. Idiomatic expressions.`,
+      correct:`Expert Korean writing coaching. Nuance and register analysis.`,
+      translate:`Professional KO/JP/EN translation with full linguistic analysis.`
+    }
+  }
+];
+
+/* ─── LISTEN DATA (赤ちゃん耳モード) ─── */
+var LISTEN_TOPICS = [
+  {label:'あいさつ', topic:'Korean greetings for beginners'},
+  {label:'K-POP', topic:'K-POP expressions and emotions'},
+  {label:'旅行', topic:'travel in Korea'},
+  {label:'食べ物', topic:'Korean food and restaurants'},
+  {label:'日常', topic:'Korean daily life'}
+];
+var listenIdx = 0, listenTopic = 0;
+var listenWords = [
+  {k:'안녕하세요',kta:'アンニョンハセヨ',kth:'ア・ン・ニョ・ン・ハ・セ・ヨ',hj:'安寧',jp:'こんにちは'},
+  {k:'감사합니다',kta:'カムサハムニダ',kth:'カム・サ・ハム・ニ・ダ',hj:'感謝',jp:'ありがとう'},
+  {k:'사랑해요',kta:'サランヘヨ',kth:'サ・ラン・へ・ヨ',hj:'',jp:'愛しています'},
+  {k:'괜찮아요',kta:'クェンチャナヨ',kth:'クェン・チャ・ナ・ヨ',hj:'',jp:'大丈夫です'},
+  {k:'맛있어요',kta:'マシッソヨ',kth:'マ・シッ・ソ・ヨ（ッで詰まる）',hj:'',jp:'おいしいです'},
+  {k:'보고 싶어요',kta:'ポゴ シッポヨ',kth:'ポ・ゴ シッ・ポ・ヨ',hj:'',jp:'会いたいです'},
+  {k:'화이팅!',kta:'ファイティン！',kth:'ファ・イ・ティン（英語fightingから）',hj:'',jp:'頑張れ！'},
+  {k:'대박이에요',kta:'テバギエヨ',kth:'テ・バ・ギ・エ・ヨ（バを強く）',hj:'',jp:'すごい！やばい！'},
+];
+
+/* ─── STATE ─── */
+var stage=1, xp=0;
+var autoSpeak=true, spd=0.8;
+var busy=false, useSearch=false, curUrl='', imgData=null;
+var voiceRec=null, voiceOn=false;
+var pronunOn=false, pronunRec=null;
+var curMode='chat';
+var chatLog=[];
+var srsDB={};
+var wrdIdx=0, wrdCat='All', wrdFiltered=WD;
+var wrdRepTimer=null, wrdRepping=false;
+var listenRevealed=false;
+
+/* ─── INIT ─── */
+window.addEventListener('load', function() {
+  loadProgress(); loadSRS();
+  renderRoadmap(); renderChips(); setModeTab('chat');
+  setTimeout(function() {
+    document.getElementById('splash').classList.add('out');
+    setTimeout(showWelcome, 700);
+  }, 2400);
+  initOnboard();
+  if ('speechSynthesis' in window) {
+    speechSynthesis.getVoices();
+    speechSynthesis.onvoiceschanged = function() { speechSynthesis.getVoices(); };
+  }
+  document.getElementById('img-in').addEventListener('change', onImgChange);
+  renderListenTopics();
+});
+
+function loadProgress() {
+  try { var s=localStorage.getItem('kj_prog'); if(s){var d=JSON.parse(s);stage=d.s||1;xp=d.x||0;} } catch(e){}
+  updateXP();
+}
+function saveProgress() { localStorage.setItem('kj_prog', JSON.stringify({s:stage,x:xp})); }
+
+function showWelcome() {
+  var msgs = [
+    '안녕하세요! 😊 저는 ARIA예요!\n\n🇰🇷 안녕하세요\n🔊 ア・ン・ニョ・ン・ハ・セ・ヨ\n🇯🇵 こんにちは\n\n韓国語ゼロでも大丈夫！\n耳から自然に覚えていきましょう。\n\n👂 まず左下の「👂耳から学ぶ」ボタンを押してみてください！',
+    '🌺 ハングルステージへようこそ！\n\n文字の仕組みを覚えましょう。\nハングルは24文字だけ。2〜3週間で読めます！',
+    '🌻 日常会話ステージ！\n\n旅行・食事・ショッピングで使える\n実践的な韓国語を練習しましょう。',
+    '🌟 K-POP・ドラマステージ！\n\n憧れの歌詞やセリフが理解できます！\n존댓말と반말の違いも学びましょう。',
+    '🏆 마스터 — 全機能解放！\n\n🎤 音声 · 📷 カメラ翻訳 · 🔗 URL解析\n🔍 Google検索 · K-POP歌詞解析\n\n무엇을 공부할까요？何を学びましょうか？'
+  ];
+  appendAI(msgs[stage-1]||msgs[0], false);
+}
+
+/* ─── STAGE ─── */
+function renderRoadmap() {
+  var html='';
+  STAGES.forEach(function(s) {
+    var cl=s.id<stage?'done':s.id===stage?'cur':'lock';
+    html+='<div class="rd-step '+cl+'" onclick="'+(s.id<=stage?'jumpStage('+s.id+')':'void 0')+'">'+
+      '<span class="rd-icon">'+s.e+'</span><span>'+s.name+'</span></div>';
+  });
+  document.getElementById('roadmap').innerHTML=html;
+}
+
+function renderChips() {
+  var cfg=STAGES[stage-1];
+  document.getElementById('chips-bar').innerHTML=cfg.chips.map(function(c) {
+    return '<button class="chip" onclick="chipSend(\''+c.replace(/'/g,"\\'")+'\')" >'+c+'</button>';
+  }).join('');
+}
+
+function chipSend(t) { document.getElementById('ta').value=t; doSend(); }
+
+function jumpStage(s) {
+  if(s>stage) return;
+  stage=s; xp=0; saveProgress(); renderRoadmap(); renderChips(); updateXP();
+  appendSys('Stage '+s+' 「'+STAGES[s-1].name+'」に戻りました');
+}
+
+function addXP(n) {
+  xp+=n; updateXP(); saveProgress();
+  showXPPop(n); playCoin();
+  if(stage<5 && xp>=STAGES[stage-1].xpMax) {
+    setTimeout(function(){showLvlUp(stage+1);}, 700);
+  }
+}
+
+function updateXP() {
+  var cfg=STAGES[stage-1];
+  var pct=stage<5?Math.min(xp/cfg.xpMax*100,100):100;
+  document.getElementById('xp-fill').style.width=pct+'%';
+  document.getElementById('xp-lbl').textContent=stage<5?xp+' / '+cfg.xpMax+' XP':xp+' XP 🏆';
+  document.getElementById('stg-badge').textContent=cfg.badge;
+}
+
+function showLvlUp(ns) {
+  var prev=STAGES[stage-1];
+  document.getElementById('lu-e').textContent=prev.luE;
+  document.getElementById('lu-t').textContent=prev.luT;
+  document.getElementById('lu-s').textContent=prev.luS;
+  document.getElementById('lu-btn').style.background=prev.luC;
+  document.getElementById('lvlup').classList.add('show');
+  window._pendingStage=ns; xp=0; saveProgress();
+  playLevelUp(); launchConfetti(window.innerWidth/2,200,80);
+}
+
+function closeLvlUp() {
+  document.getElementById('lvlup').classList.remove('show');
+  if(window._pendingStage) {
+    stage=window._pendingStage; window._pendingStage=null;
+    chatLog=[]; saveProgress(); renderRoadmap(); renderChips(); updateXP();
+    appendSys('🎉 '+STAGES[stage-1].name+'ステージへようこそ！');
+    showWelcome();
+  }
+}
+
+/* ─── MODE ─── */
+function setMode(m) {
+  curMode=m; setModeTab(m);
+  var rep=document.getElementById('rep-panel'), msgs=document.getElementById('msgs');
+  if(m==='report'){rep.classList.add('show');msgs.style.display='none';renderReport();}
+  else{rep.classList.remove('show');msgs.style.display='flex';}
+}
+function setModeTab(m) {
+  document.querySelectorAll('.m-tab').forEach(function(b){b.classList.toggle('on',b.dataset.mode===m);});
+}
+
+/* ─── SEND ─── */
+async function doSend() {
+  if(busy) return;
+  var ta=document.getElementById('ta'), text=ta.value.trim();
+  if(!text&&!imgData) return;
+  ta.value=''; resizeTA(ta);
+  var userText=text;
+  if(curUrl) userText+='\n[URL: '+curUrl+']';
+  if(useSearch) userText='[Google Search] '+userText;
+  appendUser(text,imgData);
+  busy=true; document.getElementById('go-btn').disabled=true;
+  var typing=appendTyping();
+  try {
+    var sys=STAGES[stage-1].modes[curMode]||STAGES[stage-1].modes.chat;
+    var lw=getLearned(6);
+    if(lw.length>0) sys+='\n\n[MEMORY] Learned words: '+lw.join(', ')+'. Naturally use 1-2 in your response.';
+    var media=imgData?[{base64:imgData,type:'image/jpeg'}]:null;
+    var resp=await callGemini(sys,userText,useSearch,curUrl,media);
+    typing.remove();
+    chatLog.push({role:'user',content:userText});
+    chatLog.push({role:'assistant',content:resp});
+    appendAI(resp,true);
+    if(imgData) clearImg();
+    addXP(text.length>15?14:7);
+  } catch(err) {
+    typing.remove();
+    appendAI('⚠️ 通信エラーが発生しました。\nWi-FiまたはFirebase Functionsの接続を確認してください。\n詳細: '+err.message);
+  }
+  busy=false; document.getElementById('go-btn').disabled=false;
+}
+
+/* ─── MESSAGES ─── */
+function appendUser(text,img) {
+  var area=document.getElementById('msgs');
+  var row=document.createElement('div'); row.className='row u';
+  var av=document.createElement('div'); av.className='av'; av.textContent='👤';
+  var bbl=document.createElement('div'); bbl.className='bbl';
+  if(img){
+    var im=document.createElement('img');
+    im.src=img; im.style.cssText='max-width:200px;border-radius:9px;display:block';
+    bbl.appendChild(im);
+    if(text){var p=document.createElement('p');p.style.marginTop='6px';p.textContent=text;bbl.appendChild(p);}
+  } else { bbl.textContent=text; }
+  row.appendChild(bbl); row.appendChild(av);
+  area.appendChild(row); area.scrollTop=area.scrollHeight;
+}
+
+function appendAI(text,withActs) {
+  var area=document.getElementById('msgs');
+  var row=document.createElement('div'); row.className='row ai';
+  var av=document.createElement('div'); av.className='av'; av.textContent=STAGES[stage-1].e;
+  var bbl=document.createElement('div'); bbl.className='bbl';
+  var html=text
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g,'<em>$1</em>')
+    .replace(/(🇰🇷\s*[^\n]+)/g,'<span class="ko-text">$1</span>')
+    .replace(/(🔊\s*[^\n]+)/g,'<span class="kata-text">$1</span>')
+    .replace(/(漢字[^\n]*)/g,'<span class="hanja-text">$1</span>')
+    .replace(/(🇯🇵[^\n]*)/g,'<span class="jp-text">$1</span>');
+  bbl.innerHTML=html;
+  if(withActs){
+    var acts=document.createElement('div'); acts.className='acts';
+    var spk=document.createElement('button'); spk.className='act';
+    spk.innerHTML='<div class="wv"><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div></div> 読上';
+    var ct=text;
+    spk.onclick=function(){speakKo(ct,spk);};
+    acts.appendChild(spk);
+    var cp=document.createElement('button'); cp.className='act grn'; cp.textContent='📋 コピー';
+    cp.onclick=function(){navigator.clipboard.writeText(ct).then(function(){cp.textContent='✅';setTimeout(function(){cp.textContent='📋 コピー';},1400);});};
+    acts.appendChild(cp);
+    bbl.appendChild(acts);
+    if(autoSpeak) speakKo(text,null);
+    // pronunciation card for stage 1-3
+    if(stage<=3){
+      var m=text.match(/🇰🇷\s*([가-힣\s]{2,15})/);
+      if(m&&m[1]){
+        var kata=text.match(/🔊\s*([^\n]+)/);
+        setTimeout(function(){appendPronCard(m[1].trim(),kata?kata[1].trim():'');},500);
+      }
+    }
+  }
+  row.appendChild(av); row.appendChild(bbl);
+  area.appendChild(row); area.scrollTop=area.scrollHeight;
+}
+
+function appendTyping() {
+  var area=document.getElementById('msgs');
+  var row=document.createElement('div'); row.className='typing-row';
+  var av=document.createElement('div'); av.className='av'; av.textContent=STAGES[stage-1].e;
+  var dots=document.createElement('div'); dots.className='typing-dots';
+  dots.innerHTML='<span></span><span></span><span></span>';
+  row.appendChild(av); row.appendChild(dots);
+  area.appendChild(row); area.scrollTop=area.scrollHeight;
+  return row;
+}
+
+function appendSys(t) {
+  var area=document.getElementById('msgs');
+  var d=document.createElement('div'); d.className='sys-msg'; d.textContent=t;
+  area.appendChild(d); area.scrollTop=area.scrollHeight;
+}
+
+/* ─── PRONUNCIATION CARD ─── */
+function appendPronCard(korean, kata) {
+  var area=document.getElementById('msgs');
+  var id='pc'+Date.now();
+  var div=document.createElement('div'); div.className='pron-card'; div.id=id;
+  div.innerHTML='<div class="pc-title">🎤 발음 연습 — 発音チャレンジ</div>'+
+    '<div class="pc-target">'+korean+'</div>'+
+    '<div class="pc-kata">🔊 '+kata+'</div>'+
+    '<button class="pc-btn idle" id="'+id+'b" onclick="startPron(\''+
+    korean.replace(/'/g,"\\'")+ '\',\''+kata.replace(/'/g,"\\'")+'\',\''+id+'\')">'+
+    '🎤 発音してみよう！</button><div id="'+id+'r"></div>';
+  area.appendChild(div); area.scrollTop=area.scrollHeight;
+}
+
+function startPron(korean,kata,id) {
+  var btn=document.getElementById(id+'b');
+  if(!('webkitSpeechRecognition' in window||'SpeechRecognition' in window)){alert('音声機能はChrome・Safariブラウザでご利用いただけます。');return;}
+  if(pronunOn){if(pronunRec)pronunRec.stop();return;}
+  pronunOn=true; btn.className='pc-btn rec'; btn.textContent='🔴 録音中...';
+  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  pronunRec=new SR(); pronunRec.lang='ko-KR'; pronunRec.maxAlternatives=1;
+  pronunRec.onresult=function(e){
+    var heard=e.results[0][0].transcript.trim();
+    var conf=e.results[0][0].confidence||0.5;
+    scorePron(korean,kata,heard,conf,id);
+  };
+  pronunRec.onerror=function(){pronunOn=false;btn.className='pc-btn idle';btn.textContent='🎤 もう一度';};
+  pronunRec.onend=function(){pronunOn=false;};
+  pronunRec.start();
+}
+
+function scorePron(korean,kata,heard,conf,id) {
+  var btn=document.getElementById(id+'b');
+  btn.className='pc-btn done'; btn.textContent='✅ 採点完了';
+  var score=Math.round(conf*100);
+  if(heard===korean) score=100;
+  score=Math.max(10,Math.min(99,score));
+  var emoji=score>=80?'🌟':score>=60?'👍':'💪';
+  var msg=score>=80?'완벽해요！完璧です！':score>=60?'잘했어요！上手です！':'다시 해봐요！もう一度！';
+  var cls=score>=80?'hi':score>=60?'md':'lo';
+  var res=document.getElementById(id+'r');
+  res.innerHTML='<div class="pc-score"><div class="pc-num">'+emoji+' '+score+'点</div>'+
+    '<div style="font-size:12px;color:rgba(255,255,255,.45);margin-top:4px">'+msg+'</div>'+
+    '<div style="font-size:12px;color:var(--kata);margin-top:3px">🔊 '+kata+'</div>'+
+    '<div class="pc-bar"><div class="pc-fill '+cls+'" style="width:'+score+'%"></div></div>'+
+    '<div style="font-size:11px;color:rgba(255,255,255,.3);margin-top:5px">認識: "'+heard+'"</div>'+
+    '<button onclick="startPron(\''+korean.replace(/'/g,"\\'")+'\',\''+kata.replace(/'/g,"\\'")+'\',\''+id+'\')" '+
+    'style="margin-top:8px;border:none;border-radius:9px;padding:6px 14px;font-size:12px;font-weight:800;'+
+    'cursor:pointer;background:rgba(192,96,255,.2);color:var(--accent);font-family:inherit">🔄 もう一度</button></div>';
+  addXP(Math.round(score/10));
+  if(score>=70) srsAdd(korean,kata,'');
+  if(score>=80){flashCorrect();launchConfetti(window.innerWidth/2,window.innerHeight/2,28);}
+}
+
+/* ─── SPEECH ─── */
+function getVoice(lang) {
+  var vs=speechSynthesis.getVoices();
+  if(lang==='ko'){
+    return vs.find(function(v){return v.lang.startsWith('ko');});
+  }
+  return vs.find(function(v){return v.lang.startsWith('ja');}) ||
+         vs.find(function(v){return v.lang.startsWith('en-US');});
+}
+
+function speakKo(text,btn) {
+  if(!('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();
+  // extract Korean text
+  var clean=text.replace(/🇰🇷\s*/g,'').replace(/🔊[^\n]*/g,'')
+    .replace(/🇯🇵[^\n]*/g,'').replace(/漢字[^\n]*/g,'')
+    .replace(/[^\u0000-\u007F\uAC00-\uD7FF\u3040-\u30FF\u4E00-\u9FFF]/g,' ')
+    .replace(/\s+/g,' ').trim().substring(0,300);
+  if(!clean) return;
+  var u=new SpeechSynthesisUtterance(clean);
+  u.lang='ko-KR'; u.rate=spd; u.pitch=1.05;
+  var v=getVoice('ko'); if(v) u.voice=v;
+  if(btn){
+    u.onstart=function(){btn.querySelectorAll('.wb').forEach(function(b){b.classList.add('a');});};
+    u.onend=u.onerror=function(){btn.querySelectorAll('.wb').forEach(function(b){b.classList.remove('a');});};
+  }
+  speechSynthesis.speak(u);
+}
+
+function setSpd(s,el) {
+  spd=s;
+  document.querySelectorAll('.spd-btn').forEach(function(b){b.classList.remove('on');});
+  el.classList.add('on');
+}
+function toggleAuto(){autoSpeak=!autoSpeak;document.getElementById('auto-tog').classList.toggle('on',autoSpeak);}
+
+/* ─── VOICE INPUT ─── */
+function toggleVoice() {
+  var btn=document.getElementById('mic-btn');
+  if(!('webkitSpeechRecognition' in window||'SpeechRecognition' in window)){alert('音声機能はChrome・Safariブラウザでご利用いただけます。');return;}
+  if(voiceOn){if(voiceRec)voiceRec.stop();return;}
+  voiceOn=true; btn.classList.add('rec');
+  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  voiceRec=new SR();
+  voiceRec.lang=stage<=2?'ja-JP':'ko-KR';
+  voiceRec.continuous=false; voiceRec.interimResults=true;
+  var ta=document.getElementById('ta');
+  voiceRec.onresult=function(e){var t='';for(var i=e.resultIndex;i<e.results.length;i++)t+=e.results[i][0].transcript;ta.value=t;resizeTA(ta);};
+  voiceRec.onend=function(){voiceOn=false;btn.classList.remove('rec');btn.textContent='🎤';};
+  voiceRec.onerror=function(){voiceOn=false;btn.classList.remove('rec');btn.textContent='🎤';};
+  voiceRec.start();
+  appendSys(stage<=2?'🎤 日本語で入力してください...':'🎤 한국어로 말해봐요...');
+}
+
+/* ─── CAMERA ─── */
+function onImgChange(e) {
+  var file=e.target.files[0]; if(!file) return;
+  var reader=new FileReader();
+  reader.onload=function(ev){
+    imgData=ev.target.result;
+    document.getElementById('img-th').src=imgData;
+    document.getElementById('img-sb').classList.add('show');
+    document.getElementById('cam-btn').classList.add('on');
+    appendSys('📷 画像添付済み。韓国語を含む画像も翻訳できます！');
+  };
+  reader.readAsDataURL(file);
+}
+function clearImg(){imgData=null;document.getElementById('img-in').value='';document.getElementById('img-sb').classList.remove('show');document.getElementById('cam-btn').classList.remove('on');}
+
+/* ─── URL ─── */
+function toggleUrlBar(){var bar=document.getElementById('url-bar');bar.classList.toggle('show');if(bar.classList.contains('show'))document.getElementById('url-inp').focus();}
+function closeUrlBar(){document.getElementById('url-bar').classList.remove('show');}
+function attachUrl(){
+  var v=document.getElementById('url-inp').value.trim();
+  if(!v||!v.startsWith('http')){alert('https://から始まるURLを入力してください');return;}
+  curUrl=v;
+  document.getElementById('url-lbl').textContent='🔗 '+v.substring(0,50);
+  document.getElementById('url-sb').classList.add('show');
+  document.getElementById('url-btn').classList.add('on');
+  closeUrlBar(); document.getElementById('url-inp').value='';
+  appendSys('🔗 URL解析モード ON');
+  if(curMode!=='translate') setMode('translate');
+}
+function clearUrl(){curUrl='';document.getElementById('url-sb').classList.remove('show');document.getElementById('url-btn').classList.remove('on');appendSys('🔗 URL解析 OFF');}
+function toggleSearch(){useSearch=!useSearch;document.getElementById('sch-btn').classList.toggle('on',useSearch);appendSys(useSearch?'🔍 Google検索 ON':'🔍 Google検索 OFF');}
+
+/* ─── LISTEN MODAL ─── */
+function renderListenTopics() {
+  document.getElementById('lm-topics').innerHTML=LISTEN_TOPICS.map(function(t,i){
+    return '<button class="lm-topic'+(i===0?' on':'')+'" onclick="setListenTopic('+i+')">'+t.label+'</button>';
+  }).join('');
+}
+function setListenTopic(i) {
+  listenTopic=i; listenIdx=0;
+  document.querySelectorAll('.lm-topic').forEach(function(b,j){b.classList.toggle('on',j===i);});
+}
+function openListen(){document.getElementById('listen-modal').classList.add('show');listenRender();setTimeout(listenSpeak,400);}
+function closeListen(){document.getElementById('listen-modal').classList.remove('show');speechSynthesis.cancel();}
+
+function listenRender() {
+  var d=listenWords[listenIdx%listenWords.length];
+  document.getElementById('lm-ko').textContent=d.k;
+  document.getElementById('lm-kata').textContent=d.kta;
+  document.getElementById('lm-kata-hint').textContent=d.kth;
+  document.getElementById('lm-hanja').textContent=d.hj||'（固有語）';
+  document.getElementById('lm-jp').textContent=d.jp;
+  var hw=document.getElementById('lm-hanja-wrap');
+  hw.classList.add('blur'); listenRevealed=false;
+  document.getElementById('lm-story-area').style.display='none';
+}
+
+function revealListen() {
+  if(!listenRevealed){document.getElementById('lm-hanja-wrap').classList.remove('blur');listenRevealed=true;}
+}
+
+function listenSpeak() {
+  var d=listenWords[listenIdx%listenWords.length];
+  speechSynthesis.cancel();
+  var v=getVoice('ko');
+  var u1=new SpeechSynthesisUtterance(d.k);
+  u1.lang='ko-KR'; u1.rate=0.6; u1.pitch=1.05; if(v) u1.voice=v;
+  u1.onstart=function(){document.querySelectorAll('#lm-wf .lm-wb').forEach(function(b){b.classList.add('a');});};
+  u1.onend=function(){
+    setTimeout(function(){
+      var u2=new SpeechSynthesisUtterance(d.k);
+      u2.lang='ko-KR'; u2.rate=0.85; if(v) u2.voice=v;
+      u2.onend=function(){document.querySelectorAll('#lm-wf .lm-wb').forEach(function(b){b.classList.remove('a');});};
+      speechSynthesis.speak(u2);
+    },400);
+  };
+  speechSynthesis.speak(u1);
+  srsAdd(d.k, d.kta, d.jp);
+  revealListen();
+}
+
+function listenNext() {
+  listenIdx=(listenIdx+1)%listenWords.length;
+  listenRender(); setTimeout(listenSpeak,200); addXP(5);
+}
+
+async function listenStory() {
+  var d=listenWords[listenIdx%listenWords.length];
+  var area=document.getElementById('lm-story-area');
+  area.style.display='block'; area.textContent='✨ 生成中...';
+  try {
+    var resp=await callGemini(
+      'Write a very short Korean story (2-3 sentences) using "'+d.k+'". '+
+      'Level: absolute beginner. Show:\n🇰🇷 Korean\n🔊 超細分化カタカナ\n🇯🇵 Japanese translation',
+      '단어: '+d.k+' ('+d.jp+')', false, '', null
+    );
+    area.textContent=resp.trim();
+    if(autoSpeak){
+      var ko=resp.match(/🇰🇷\s*([^\n]+)/);
+      if(ko){var u=new SpeechSynthesisUtterance(ko[1].trim());u.lang='ko-KR';u.rate=spd;var v=getVoice('ko');if(v)u.voice=v;setTimeout(function(){speechSynthesis.speak(u);},300);}
+    }
+    addXP(10);
+  } catch(err) { area.textContent='⚠️ '+err.message; }
+}
+
+/* ─── WORD MODAL ─── */
+function openWrd() {
+  wrdIdx=0; renderCatBar(); filterWrd('All');
+  document.getElementById('wrd-modal').classList.add('show');
+  wrdRender(); setTimeout(wrdSpeak,350);
+}
+function closeWrd(){document.getElementById('wrd-modal').classList.remove('show');if(wrdRepTimer){clearInterval(wrdRepTimer);wrdRepTimer=null;}wrdRepping=false;speechSynthesis.cancel();}
+
+function renderCatBar() {
+  var cats=['All'];
+  WD.forEach(function(d){if(cats.indexOf(d.c)<0)cats.push(d.c);});
+  document.getElementById('cat-bar').innerHTML=cats.map(function(c){
+    return '<button class="cat-btn'+(c==='All'?' on':'')+'" id="cat-'+c+'" onclick="filterWrd(\''+c+'\')">'+c+'</button>';
+  }).join('');
+}
+
+function filterWrd(cat) {
+  wrdCat=cat; wrdFiltered=cat==='All'?WD:WD.filter(function(d){return d.c===cat;});
+  wrdIdx=0;
+  document.querySelectorAll('.cat-btn').forEach(function(b){b.classList.toggle('on',b.id==='cat-'+cat);});
+  wrdRender();
+}
+
+function wrdRender() {
+  var d=wrdFiltered[wrdIdx%wrdFiltered.length];
+  // type badge
+  var tb=document.getElementById('wrd-type-badge');
+  if(d.t==='H'){tb.className='wrd-type-badge hanja-w';tb.textContent='漢字語 — 日本語と意味が同じ！';}
+  else if(d.t==='L'){tb.className='wrd-type-badge loan-w';tb.textContent='外来語 — 英語からの借用語';}
+  else{tb.className='wrd-type-badge native-w';tb.textContent='固有語 — 韓国固有の言葉';}
+  document.getElementById('wrd-emoji').textContent=d.e;
+  // 4 layers
+  document.getElementById('wrd-hanja').textContent=d.hj||(d.t==='H'?'—':'（'+d.t==='L'?'外来語':'固有語'+'）');
+  if(d.t!=='H'){document.querySelector('.layer.hanja-l').style.opacity='0.4';}
+  else{document.querySelector('.layer.hanja-l').style.opacity='1';}
+  document.getElementById('wrd-ko').textContent=d.k;
+  document.getElementById('wrd-kata').textContent=d.kta;
+  document.getElementById('wrd-kata-hint').textContent=d.kth;
+  document.getElementById('wrd-jp-main').textContent=d.jp;
+  // pronunciation hint
+  document.getElementById('pron-hint-text').textContent=d.kth;
+  // hanja bonus
+  var bonus=document.getElementById('hanja-bonus');
+  if(d.t==='H'&&d.jpb){
+    bonus.style.display='block';
+    document.getElementById('bonus-kanji').textContent=d.hj;
+    document.getElementById('bonus-jp').textContent=d.jpb||d.jp;
+  } else {bonus.style.display='none';}
+  // example
+  document.getElementById('wrd-sent').textContent=d.s;
+  document.getElementById('wrd-sent-kata').textContent=d.sta;
+  document.getElementById('wrd-sent-jp').textContent='🇯🇵 '+d.stj;
+  // dots
+  var show=Math.min(wrdFiltered.length,14);
+  var dots='';
+  for(var i=0;i<show;i++){
+    var wi=wrdFiltered[i].k;
+    var cl=srsDB[wi]?'done':'';
+    if(i===wrdIdx%show)cl+=' cur';
+    dots+='<div class="wrd-dot '+cl.trim()+'"></div>';
+  }
+  document.getElementById('wrd-dots').innerHTML=dots;
+  document.getElementById('wrd-learned').textContent=Object.keys(srsDB).length+' / '+WD.length+' 語学習中';
+  var sa=document.getElementById('wrd-story-area');
+  sa.style.display='none'; sa.textContent='';
+  document.querySelector('.wrd-story-btn').textContent='✨ AIがこの単語でストーリー生成';
+  document.querySelector('.wrd-story-btn').disabled=false;
+}
+
+function wrdLayerTap(layer) {
+  // tap to hear pronunciation of that layer
+  var d=wrdFiltered[wrdIdx%wrdFiltered.length];
+  if(layer==='ko'||layer==='hanja'){
+    var u=new SpeechSynthesisUtterance(d.k);
+    u.lang='ko-KR'; u.rate=0.65; var v=getVoice('ko'); if(v) u.voice=v;
+    speechSynthesis.cancel(); speechSynthesis.speak(u);
+  }
+}
+
+function wrdSpeak() {
+  var d=wrdFiltered[wrdIdx%wrdFiltered.length];
+  speechSynthesis.cancel();
+  var v=getVoice('ko');
+  var u1=new SpeechSynthesisUtterance(d.k);
+  u1.lang='ko-KR'; u1.rate=0.6; u1.pitch=1.05; if(v) u1.voice=v;
+  u1.onstart=function(){document.querySelectorAll('#wrd-wv .wb').forEach(function(b){b.classList.add('a');});};
+  u1.onend=function(){
+    setTimeout(function(){
+      var u2=new SpeechSynthesisUtterance(d.s);
+      u2.lang='ko-KR'; u2.rate=0.78; if(v) u2.voice=v;
+      u2.onend=function(){document.querySelectorAll('#wrd-wv .wb').forEach(function(b){b.classList.remove('a');});};
+      speechSynthesis.speak(u2);
+    },350);
+  };
+  speechSynthesis.speak(u1);
+  srsAdd(d.k,d.kta,d.jp);
+}
+
+function wrdRepeat() {
+  if(wrdRepping){clearInterval(wrdRepTimer);wrdRepTimer=null;wrdRepping=false;document.querySelector('.wrd-btn.rep').textContent='🔁 くり返し';return;}
+  wrdRepping=true; document.querySelector('.wrd-btn.rep').textContent='⏹ 停止';
+  wrdSpeak(); wrdRepTimer=setInterval(wrdSpeak,5000);
+}
+
+function wrdNext() {
+  if(wrdRepping){clearInterval(wrdRepTimer);wrdRepTimer=null;wrdRepping=false;document.querySelector('.wrd-btn.rep').textContent='🔁 くり返し';}
+  wrdIdx=(wrdIdx+1)%wrdFiltered.length; wrdRender(); setTimeout(wrdSpeak,180); addXP(5);
+}
+
+async function wrdStory() {
+  var d=wrdFiltered[wrdIdx%wrdFiltered.length];
+  var btn=document.querySelector('.wrd-story-btn');
+  var area=document.getElementById('wrd-story-area');
+  btn.textContent='✨ 生成中...'; btn.disabled=true;
+  area.style.display='none';
+  try {
+    var sys='You are a Korean teacher writing simple stories for Japanese adult beginners. '+
+      'Level: '+STAGES[stage-1].name+'. Show 4 layers:\n🇰🇷 Korean\n🔊 超細分化カタカナ\n漢字 (if applicable)\n🇯🇵 Japanese';
+    var prompt='Write a very short story (2-3 sentences) MUST using the word "'+d.k+'" ('+d.jp+'). '+
+      'Show 4-layer display. Adult real-world topic.';
+    var resp=await callGemini(sys,prompt,false,'',null);
+    area.textContent=resp.trim(); area.style.display='block';
+    btn.textContent='🔄 別のストーリーを生成'; btn.disabled=false;
+    if(autoSpeak){
+      var ko=resp.match(/🇰🇷\s*([^\n]+)/);
+      if(ko){var u=new SpeechSynthesisUtterance(ko[1].trim());u.lang='ko-KR';u.rate=spd;var v=getVoice('ko');if(v)u.voice=v;setTimeout(function(){speechSynthesis.speak(u);},300);}
+    }
+    addXP(10);
+  } catch(err){area.textContent='⚠️ '+err.message;area.style.display='block';btn.textContent='✨ AIがこの単語でストーリー生成';btn.disabled=false;}
+}
+
+/* ─── SRS ─── */
+var SRS_INT=[1,2,4,8,16,32];
+var srsQ=[], srsCur=null;
+function srsAdd(word,kata,jp){if(srsDB[word])return;srsDB[word]={kata:kata,jp:jp,lv:0,next:Date.now()+86400000};srsSave();updateSRSBadge();}
+function srsSave(){localStorage.setItem('kj_srs',JSON.stringify(srsDB));}
+function loadSRS(){try{var s=localStorage.getItem('kj_srs');if(s)srsDB=JSON.parse(s);}catch(e){}updateSRSBadge();}
+function srsDue(){var n=Date.now(),c=0;Object.values(srsDB).forEach(function(w){if(w.next<=n)c++;});return c;}
+function updateSRSBadge(){var n=srsDue(),b=document.getElementById('srs-n');if(b){b.textContent=n;b.style.display=n>0?'flex':'none';}}
+function openSRS(){loadSRS();document.getElementById('srs-modal').classList.add('show');renderSRSHome();}
+function closeSRS(){document.getElementById('srs-modal').classList.remove('show');}
+
+function renderSRSHome() {
+  var total=Object.keys(srsDB).length, due=srsDue();
+  var mastered=Object.values(srsDB).filter(function(w){return w.lv>=5;}).length;
+  var items=Object.entries(srsDB).map(function(e){
+    var diff=e[1].next-Date.now();
+    var badge=diff<=0?'今すぐ':diff<86400000?'今日':Math.ceil(diff/86400000)+'日後';
+    var cls=diff<=0?'now':diff<86400000?'tod':'lat';
+    return {w:e[0],kata:e[1].kata,badge:badge,cls:cls,diff:diff};
+  }).sort(function(a,b){return a.diff-b.diff;});
+  var html='<div class="sm-stats">'+
+    '<div class="sm-stat"><div class="sm-n">'+total+'</div><div class="sm-l">총단어</div></div>'+
+    '<div class="sm-stat"><div class="sm-n" style="color:#ef9a9a">'+due+'</div><div class="sm-l">복습대기</div></div>'+
+    '<div class="sm-stat"><div class="sm-n" style="color:#a5d6a7">'+mastered+'</div><div class="sm-l">마스터</div></div>'+
+  '</div>';
+  if(due>0) html+='<button class="sm-start" onclick="startSRS()">🚀 '+due+' 単語を今すぐ復習</button>';
+  else html+='<div style="text-align:center;padding:16px;color:rgba(255,255,255,.35);font-weight:700">✅ 今日の復習完了！</div>';
+  if(items.length>0){
+    html+='<div style="font-size:11px;font-weight:800;color:rgba(255,255,255,.25);margin:10px 0 7px">📋 単語リスト</div><div class="sm-list">';
+    items.forEach(function(item){
+      html+='<div class="sm-item"><div class="sm-ko">'+item.w+'</div>'+
+        '<div class="sm-kata">'+item.kata+'</div>'+
+        '<span class="sm-badge '+item.cls+'">'+item.badge+'</span></div>';
+    });
+    html+='</div>';
+  } else {
+    html+='<div style="text-align:center;padding:32px;color:rgba(255,255,255,.25)">'+
+      '<div style="font-size:44px;margin-bottom:10px">📖</div>'+
+      '👂耳から学ぶ・📖単語カードから<br>単語を覚えるとここに表示されます</div>';
+  }
+  document.getElementById('srs-body').innerHTML=html;
+}
+
+function startSRS(){
+  var now=Date.now();
+  srsQ=Object.entries(srsDB).filter(function(e){return e[1].next<=now;}).map(function(e){return e[0];});
+  srsQ.sort(function(){return Math.random()-.5;}); nextSRSCard();
+}
+
+function nextSRSCard(){
+  if(srsQ.length===0){renderSRSHome();addXP(20);appendSys('🎉 복습 완료！+20XP');return;}
+  srsCur=srsQ.shift();
+  var d=srsDB[srsCur], rem=srsQ.length+1;
+  var html='<div style="font-size:11px;color:rgba(255,255,255,.25);margin-bottom:8px;font-weight:700">残り '+rem+' 問</div>'+
+    '<div class="sm-card">'+
+      '<div class="sm-q">'+srsCur+'</div>'+
+      '<div class="sm-qkata">'+d.kata+'</div>'+
+      '<div class="sm-hint">日本語の意味は？</div>'+
+      '<button class="sm-see" onclick="showSRSAns()">答えを見る</button>'+
+    '</div>'+
+    '<div class="sm-ans" id="srs-ans">'+
+      '<div class="sm-ans-card">'+
+        '<div style="font-size:22px;font-weight:900;color:var(--ko);margin-bottom:4px">'+srsCur+'</div>'+
+        '<div style="font-size:16px;font-weight:800;color:var(--kata);margin-bottom:5px">🔊 '+d.kata+'</div>'+
+        '<div style="font-size:14px;color:var(--jp);font-weight:700">🇯🇵 '+d.jp+'</div>'+
+      '</div>'+
+      '<div class="sm-rate">'+
+        '<button class="sm-rb h" onclick="rateSRS(\'h\')">😓 難しい</button>'+
+        '<button class="sm-rb o" onclick="rateSRS(\'o\')">😊 まあまあ</button>'+
+        '<button class="sm-rb e" onclick="rateSRS(\'e\')">😄 簡단！</button>'+
+      '</div></div>';
+  document.getElementById('srs-body').innerHTML=html;
+  var u=new SpeechSynthesisUtterance(srsCur);
+  u.lang='ko-KR'; u.rate=0.7; var v=getVoice('ko'); if(v) u.voice=v;
+  speechSynthesis.speak(u);
+}
+
+function showSRSAns(){var a=document.getElementById('srs-ans');if(a)a.classList.add('show');}
+function rateSRS(r){
+  if(!srsCur) return;
+  var d=srsDB[srsCur];
+  d.lv=r==='e'?Math.min(d.lv+2,5):r==='o'?Math.min(d.lv+1,5):Math.max(d.lv-1,0);
+  d.next=Date.now()+(SRS_INT[d.lv]||1)*86400000;
+  srsSave(); updateSRSBadge();
+  if(r==='e'){playSuccess();flashCorrect();launchConfetti(window.innerWidth/2,window.innerHeight/2,25);addXP(10);}
+  else if(r==='o'){playBeep(440,.15);addXP(5);}
+  else{playBeep(220,.2,'sawtooth');addXP(2);}
+  setTimeout(nextSRSCard,220);
+}
+
+/* ─── REPORT ─── */
+function renderReport(){
+  var panel=document.getElementById('rep-panel');
+  var total=Object.keys(srsDB).length;
+  var mastered=Object.values(srsDB).filter(function(w){return w.lv>=5;}).length;
+  var due=srsDue(); var cfg=STAGES[stage-1];
+  var xpPct=stage<5?Math.min(xp/cfg.xpMax*100,100):100;
+  var xpLeft=stage<5?Math.max(cfg.xpMax-xp,0):0;
+  var cats={};
+  WD.forEach(function(d){if(!cats[d.c])cats[d.c]={total:0,learned:0};cats[d.c].total++;if(srsDB[d.k])cats[d.c].learned++;});
+  var catArr=Object.entries(cats).map(function(e){
+    return {name:e[0],pct:Math.round(e[1].learned/e[1].total*100),l:e[1].learned,t:e[1].total};
+  }).sort(function(a,b){return a.pct-b.pct;});
+  var weak=catArr.slice(0,3);
+  function sk(label,cls,val){return '<div class="sk-row"><div class="sk-labels"><span>'+label+'</span><span>'+val+'%</span></div><div class="sk-track"><div class="sk-fill '+cls+'" style="width:'+val+'%"></div></div></div>';}
+  function tip(icon,txt){return '<div class="tip-row"><span class="tip-icon">'+icon+'</span><span class="tip-text">'+txt+'</span></div>';}
+  panel.innerHTML=
+  '<div class="rep-card"><div class="rep-title">'+cfg.e+' 현재 레벨：'+cfg.name+'</div>'+
+    '<div class="rep-stats">'+
+      '<div class="rep-stat"><div class="rep-n">'+xp+'</div><div class="rep-l">Total XP</div></div>'+
+      '<div class="rep-stat"><div class="rep-n">'+total+'</div><div class="rep-l">単語数</div></div>'+
+      '<div class="rep-stat"><div class="rep-n">'+mastered+'</div><div class="rep-l">マスター</div></div>'+
+    '</div>'+
+    (stage<5?'<div style="margin-top:13px"><div class="sk-labels"><span>次のステップまで</span><span>あと '+xpLeft+' XP</span></div><div class="sk-track"><div class="sk-fill pk" style="width:'+xpPct+'%"></div></div></div>':'<div style="text-align:center;padding:9px;font-size:13px;color:#a5d6a7;font-weight:700">🏆 마스터！</div>')+
+  '</div>'+
+  '<div class="rep-card"><div class="rep-title">📚 カテゴリ別習熟度</div>'+
+    catArr.map(function(c){var cl=c.pct>=70?'gn':c.pct>=40?'cy':'pu';return sk(c.name+' ('+c.l+'/'+c.t+')',cl,c.pct);}).join('')+
+  '</div>'+
+  '<div class="rep-card"><div class="rep-title">💡 ARIAからのアドバイス</div>'+
+    tip('👂','まず耳から！👂ボタンで音を体に染み込ませよう')+
+    tip('🏆','漢字語は日本人の最強武器！意味が同じ単語が60%もある')+
+    tip('🔁','복습バッジに数字が出たら必ず復習。忘却曲線を制する者が勝つ')+
+    (weak[0]?tip('📖','「'+weak[0].name+'」カテゴリを重点的に練習しよう'):'')+
+    (due>0?tip('⚠️','今日の復習が '+due+' 単語 たまっています'):'')+
+    tip('🎤','마이크（マイク）で韓国語を声に出す練習が最効果的')+
+  '</div>';
+}
+
+/* ─── EFFECTS ─── */
+var CFI=['#ff6b9d','#c060ff','#4fc3f7','#ffd700','#a5d6a7','#ffcc80'];
+function launchConfetti(x,y,n){
+  var w=document.createElement('div');w.className='cfi-wrap';document.body.appendChild(w);
+  for(var i=0;i<(n||40);i++){
+    var p=document.createElement('div');p.className='cfi';
+    var sz=6+Math.random()*8;
+    var sx=(x||window.innerWidth/2)+(Math.random()-.5)*200;
+    p.style.cssText='left:'+sx+'px;top:'+(y||100)+'px;width:'+sz+'px;height:'+sz+'px;'+
+      'background:'+CFI[Math.floor(Math.random()*CFI.length)]+';'+
+      'border-radius:'+(Math.random()>.5?'50%':'2px')+';'+
+      'animation-duration:'+(1.5+Math.random()*1.5)+'s;animation-delay:'+(Math.random()*.5)+'s';
+    w.appendChild(p);
+  }
+  setTimeout(function(){w.remove();},3500);
+}
+function showXPPop(n){var el=document.createElement('div');el.className='xp-pop';el.textContent='+'+n+' XP ⚡';el.style.cssText='right:20px;top:60px';document.body.appendChild(el);setTimeout(function(){el.remove();},1300);}
+function flashCorrect(){var el=document.createElement('div');el.className='flash';document.body.appendChild(el);setTimeout(function(){el.remove();},500);}
+function playBeep(f,d,t){try{var ctx=new(window.AudioContext||window.webkitAudioContext)();var osc=ctx.createOscillator(),g=ctx.createGain();osc.connect(g);g.connect(ctx.destination);osc.type=t||'sine';osc.frequency.value=f||440;g.gain.setValueAtTime(0.12,ctx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+(d||0.3));osc.start();osc.stop(ctx.currentTime+(d||0.3));}catch(e){}}
+function playCoin(){playBeep(880,.07,'square');setTimeout(function(){playBeep(1109,.1,'square');},80);}
+function playSuccess(){[523,659,784].forEach(function(f,i){setTimeout(function(){playBeep(f,.12);},i*100);});}
+function playLevelUp(){[523,659,784,1047].forEach(function(f,i){setTimeout(function(){playBeep(f,.2,'triangle');},i*110);});}
+
+/* ─── HELPERS ─── */
+function getLearned(max){var keys=Object.keys(srsDB);var recent=keys.slice(-4);var others=keys.filter(function(k){return recent.indexOf(k)<0;});others.sort(function(){return Math.random()-.5;});return recent.concat(others).slice(0,max||6);}
+
+
+// ── ONBOARDING ──
+function initOnboard() {
+  if (!localStorage.getItem('kj_ob')) {
+    var el = document.getElementById('onboard');
+    if (el) el.style.display = 'flex';
+  }
+}
+function obNext(n) {
+  for (var i=0;i<3;i++) {
+    var s=document.getElementById('obs'+i);
+    var d=document.getElementById('od'+i);
+    if(s) s.style.display = i===n?'block':'none';
+    if(d){ d.style.background=i===n?'#fff':'rgba(255,255,255,.35)';
+           d.style.transform=i===n?'scale(1.3)':'scale(1)'; }
+  }
+}
+function obFinish() {
+  localStorage.setItem('kj_ob','1');
+  var el=document.getElementById('onboard');
+  if(el) el.style.display='none';
+}
+function toggleFabMenu() {
+  var m=document.getElementById('fab-menu');
+  var btn=document.getElementById('fab-main');
+  if(!m||!btn) return;
+  var open = m.style.display==='flex';
+  m.style.display = open?'none':'flex';
+  btn.textContent = open?'＋':'✕';
+  btn.style.transition = 'transform .3s';
+  btn.style.transform = open?'rotate(0deg)':'rotate(45deg)';
+}
+function closeFabMenu() {
+  var m=document.getElementById('fab-menu');
+  var btn=document.getElementById('fab-main');
+  if(m) m.style.display='none';
+  if(btn){ btn.textContent='＋'; btn.style.transform='rotate(0deg)'; }
+}
+
+function resizeTA(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,96)+'px';}
+function onKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();doSend();}}
+</script>
+</body>
+</html>
